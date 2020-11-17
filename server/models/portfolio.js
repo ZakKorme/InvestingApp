@@ -1,34 +1,33 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const Portfolio = mongoose.connect(
-  "Portfolio",
-  new mongoose.Schema({
-    tickerSymbol: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 1,
-      maxLength: 4,
-    },
-    purchasedPrice: {
-      type: Number,
-      required: true,
-      min: 0,
-      max: 1000000,
-    },
-    purchasedDate: {
-      type: Date,
-      min: "1987-09-28",
-    },
-    numberOfShares: {
-      type: Number,
-      required: true,
-      min: 0,
-      max: 1000000,
-    },
-  })
-);
+const portfolioSchema = new mongoose.Schema({
+  tickerSymbol: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 1,
+    maxLength: 4,
+  },
+  purchasedPrice: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 1000000,
+  },
+  purchasedDate: {
+    type: Date,
+    min: "1987-09-28",
+  },
+  numberOfShares: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 1000000,
+  },
+});
+
+const Portfolio = mongoose.model("Portfolio", portfolioSchema);
 
 const validatePortfolio = (stockEntry) => {
   const schema = {
