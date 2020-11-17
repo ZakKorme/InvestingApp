@@ -3,7 +3,11 @@ const db = "mongodb://localhost/investingApp";
 
 module.exports = function () {
   mongoose
-    .connect(db)
+    .connect(db, {
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
     .then(() => {
       console.log("Connected: investingApp Database");
     })

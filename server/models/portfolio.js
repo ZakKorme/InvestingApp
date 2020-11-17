@@ -30,13 +30,13 @@ const portfolioSchema = new mongoose.Schema({
 const Portfolio = mongoose.model("Portfolio", portfolioSchema);
 
 const validatePortfolio = (stockEntry) => {
-  const schema = {
-    tickerSymbol: Joi.string().min(1).max(4).required(),
+  const schema = Joi.object({
+    tickerSymbol: Joi.string().uppercase().min(1).max(4).required(),
     purchasedPrice: Joi.number().min(0).max(1000000).required(),
     purchasedDate: Joi.date().greater("9-28-1987").required(),
     numberOfShares: Joi.number().min(0).max(1000000).required(),
-  };
-  return Joi.validate(stockEntry, schema);
+  });
+  return schema.validate(stockEntry);
 };
 
 exports.Portfolio = Portfolio;

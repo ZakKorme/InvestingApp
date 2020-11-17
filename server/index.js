@@ -7,6 +7,7 @@ const portfolio = require("./routes/portfolio");
 require("./db")();
 
 //ROUTES
+app.use(express.json());
 app.use("/api/portfolio", portfolio);
 
 const port = process.env.PORT || 5000;
