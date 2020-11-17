@@ -3,6 +3,9 @@ const app = express();
 
 const portfolio = require("./routes/portfolio");
 
+//DATABASE
+require("./db")();
+
 //ROUTES
 app.use("/api/portfolio", portfolio);
 
