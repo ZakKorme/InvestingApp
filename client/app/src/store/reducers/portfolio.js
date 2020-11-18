@@ -18,6 +18,22 @@ const reducer = (state = inititalState, action) => {
         ...inititalState,
         error: true,
       };
+    case actionTypes.RETURNS_INIT:
+      return {
+        ...inititalState,
+        loading: true,
+      };
+    case actionTypes.RETURNS_SUCESS:
+      return {
+        ...inititalState,
+        loading: false,
+      };
+    case actionTypes.RETURNS_FAILURE:
+      return {
+        ...inititalState,
+        loading: false,
+        error: true,
+      };
     default:
       return state;
   }

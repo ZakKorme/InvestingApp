@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { Portfolio, validatePortfolio } = require("../models/portfolio");
-const { raw } = require("express");
 
 //GET : Entire Portfolio
 router.get("/", async (req, res) => {
