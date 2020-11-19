@@ -9,9 +9,10 @@ export const getDailyPrice = (obj) => {
       ? "0" + currentDate.getDate()
       : currentDate.getDate();
   let formattedDate = `${year}-${month}-${day}`;
-
-  if (stockData[formattedDate]["4. close"]) {
-    return stockData[formattedDate]["4. close"];
+  if (stockData[formattedDate]) {
+    if (stockData[formattedDate]["4. close"]) {
+      return stockData[formattedDate]["4. close"];
+    }
   } else {
     for (let i = 1; i < 3; i++) {
       let [tempYear, tempMonth, tempDate] = subtractDate(currentDate, i);

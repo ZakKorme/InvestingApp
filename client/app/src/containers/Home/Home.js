@@ -36,7 +36,7 @@ const Home = (props) => {
       : null;
   return (
     <Grid container spacing={4} className={classes.gridContainer}>
-      {/* <Navigation /> */}
+      <Navigation />
       {portfolioData}
     </Grid>
   );
