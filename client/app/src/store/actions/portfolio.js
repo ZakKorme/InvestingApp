@@ -41,11 +41,11 @@ export const calculateReturns = (ticker, price, shares) => {
       let data = res.data;
       currentPrice = getDailyPrice(data);
       dispatch(returnsSuccess());
-
     } catch (err) {
       dispatch(returnsFailure());
-      console.error(err);
+      return console.error(err);
     }
+    console.log(currentPrice);
     let totalReturn = (currentPrice - price) * shares;
     return totalReturn.toFixed(2);
   };
