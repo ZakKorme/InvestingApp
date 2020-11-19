@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  initPortfolio,
-  calculateReturns,
-} from "../../../store/actions/portfolio";
+import { calculateReturns } from "../../../store/actions/portfolio";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -35,11 +32,12 @@ const useStyles = makeStyles({
 const PortfolioCard = (props) => {
   const [returns, setReturns] = useState(null);
   const [spinner, setSpinner] = useState(false);
+  const [currentPrice, setCurrentPrice] = useState(null);
   const classes = useStyles();
 
-  const onClickHandler = async () => {
+  const onReturnHandler = async () => {
     setSpinner(true);
-    const returnsCalc = await props.calculateReturn(
+    const [, returnsCalc] = await props.calculateReturn(
       props.ticker,
       props.price,
       props.quantity
@@ -47,6 +45,17 @@ const PortfolioCard = (props) => {
     setSpinner(false);
     setReturns(returnsCalc);
   };
+  const onCurrentPriceHandler = async () => {
+    setSpinner(true);
+    const [currentPrice] = await props.calculateReturn(
+      props.ticker,
+      props.price,
+      props.quantity
+    );
+    setSpinner(false);
+    setCurrentPrice(currentPrice);
+  };
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -68,6 +77,10 @@ const PortfolioCard = (props) => {
         <Typography variant="body2">
           <strong>Shares: </strong> {props.quantity}
         </Typography>
+        <Typography variant="body2">
+          <strong>Current Price: </strong>
+          {currentPrice ? currentPrice : false}
+        </Typography>
         <Typography component={"span"} variant="body2">
           <strong>Total Returns: </strong>
           {spinner ? <Spinner /> : null}
@@ -75,8 +88,11 @@ const PortfolioCard = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={onClickHandler}>
+        <Button size="small" onClick={onReturnHandler}>
           Calculate Return
+        </Button>
+        <Button size="small" onClick={onCurrentPriceHandler}>
+          Current Price
         </Button>
       </CardActions>
     </Card>
@@ -86,13 +102,11 @@ const PortfolioCard = (props) => {
 const mapStateToProps = (state) => {
   return {
     portfolio: state.portfolio.portfolio,
-    loading: state.portfolio.loading,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    initPortfolio: () => dispatch(initPortfolio()),
     calculateReturn: (ticker, price, quantity) =>
       dispatch(calculateReturns(ticker, price, quantity)),
   };

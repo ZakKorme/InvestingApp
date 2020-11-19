@@ -39,14 +39,15 @@ export const calculateReturns = (ticker, price, shares) => {
     try {
       let res = await axios.get(url);
       let data = res.data;
-      currentPrice = getDailyPrice(data);
+      currentPrice = +getDailyPrice(data);
       dispatch(returnsSuccess());
     } catch (err) {
       dispatch(returnsFailure());
       return console.error(err);
     }
+
     let totalReturn = (currentPrice - price) * shares;
-    return totalReturn.toFixed(2);
+    return [currentPrice.toFixed(2), +totalReturn.toFixed(2)];
   };
 };
 

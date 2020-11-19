@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 // import { Route } from "react-router-dom";
 import { initPortfolio } from "./store/actions/portfolio";
-
 import Home from "./containers/Home/Home";
 // import Scan from "./containers/Scan/Scan";
 // import Analysis from "./containers/Analysis/Analysis";
