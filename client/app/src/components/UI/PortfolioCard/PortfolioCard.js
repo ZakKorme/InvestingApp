@@ -37,7 +37,11 @@ const PortfolioCard = (props) => {
   const classes = useStyles();
 
   const onClickHandler = async () => {
-    const returnsCalc = await props.calculateReturn(props.ticker, props.price, props.quantity);
+    const returnsCalc = await props.calculateReturn(
+      props.ticker,
+      props.price,
+      props.quantity
+    );
     setReturns(returnsCalc);
   };
   return (
