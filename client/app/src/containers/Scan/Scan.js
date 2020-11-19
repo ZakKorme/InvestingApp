@@ -8,11 +8,13 @@ import { initScanning } from "../../store/actions/scanner";
 
 const Scan = (props) => {
   const [ticker, setTicker] = useState("");
-  const [scanData, setScanData] = useState(null);
+  const [scanDataColumns, setScanDataColumns] = useState(null);
+  const [scanDataRows, setScanDataRows] = useState(null);
 
   const onClickHandler = async (e) => {
-    const data = await props.initScan(ticker);
-    setScanData(data);
+    const [scanDataColumns, scanDataRows] = await props.initScan(ticker);
+    setScanDataColumns(scanDataColumns);
+    setScanDataRows(scanDataRows);
   };
   const onChangeHandler = (e) => {
     setTicker(e.target.value);
@@ -22,7 +24,9 @@ const Scan = (props) => {
     <div>
       <Input changed={onChangeHandler} />
       <Button clicked={onClickHandler}>Scan</Button>
-      <div>{scanData ? <Table rows={scanData} /> : null}</div>
+      <div>
+        {scanDataColumns && scanDataRows ? <Table rows={scanDataRows} /> : null}
+      </div>
     </div>
   );
 };

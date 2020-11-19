@@ -10,15 +10,12 @@ export const initScanning = (scanTicker) => {
       const data = res.data["Time Series (Daily)"];
       const columns = Object.keys(data["2020-11-18"]);
       const rows = [];
-      let counter = 0;
       for (let val in data["2020-11-18"]) {
-        let key = columns[counter];
-        rows.push({ [key]: data["2020-11-18"][val] });
-        counter++;
+        let price = +data["2020-11-18"][val];
+        rows.push(price.toFixed(2));
       }
-      console.log(rows);
       dispatch(scanSucess);
-      return [columns, rows];
+      return [columns, [rows]];
     } catch (err) {
       dispatch(scanFailure(err));
       console.error(err);
