@@ -4,12 +4,12 @@ import PortfolioCard from "../../components/UI/PortfolioCard/PortfolioCard";
 import { calculateReturns } from "../../store/actions/portfolio";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Navigation from "../../components/Navigation/Navigation";
 
 const useStyles = makeStyles({
   gridContainer: {
     paddingLeft: "20px",
     paddingRight: "20px",
+    paddingTop: "50px",
   },
 });
 
@@ -36,7 +36,6 @@ const Home = (props) => {
       : null;
   return (
     <Grid container spacing={4} className={classes.gridContainer}>
-      <Navigation />
       {portfolioData}
     </Grid>
   );

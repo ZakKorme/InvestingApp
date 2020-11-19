@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 
 import { connect } from "react-redux";
-// import { Route } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { initPortfolio } from "./store/actions/portfolio";
+import Navigation from "./components/Navigation/Navigation";
 import Home from "./containers/Home/Home";
-// import Scan from "./containers/Scan/Scan";
-// import Analysis from "./containers/Analysis/Analysis";
-// import Portfolio from "./containers/Portfolio/Portfolio";
+import Scan from "./containers/Scan/Scan";
+import Analysis from "./containers/Analysis/Analysis";
+import Portfolio from "./containers/Portfolio/Portfolio";
 
 function App(props) {
   const { initPortfolio } = props;
@@ -15,13 +16,20 @@ function App(props) {
     initPortfolio();
   }, [initPortfolio]);
 
-  return (
-    <div className="App">
-      <Home />
-      {/* <Route path="/portfolio" component={Portfolio} />
+  let routes = (
+    <Switch>
+      <Route path="/portfolio" component={Portfolio} />
       <Route path="/analysis" component={Analysis} />
       <Route path="/scan" component={Scan} />
-      <Route path="/" exact component={Home} /> */}
+      <Route path="/" exact component={Home} />
+      <Redirect to="/" />
+    </Switch>
+  );
+
+  return (
+    <div className="App">
+      <Navigation />
+      {routes}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-// import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,10 +33,18 @@ const Navigation = (props) => {
         <Typography variant="h6" className={classes.title}>
           Investor Dashboard
         </Typography>
-        <Button color="inherit">Home</Button>
-        <Button color="inherit">Scan</Button>
-        <Button color="inherit">Analysis</Button>
-        <Button color="inherit">Portfolio</Button>
+        <Button color="inherit" component={NavLink} to="/" exact>
+          Home
+        </Button>
+        <Button color="inherit" component={NavLink} to="/scan">
+          Scan
+        </Button>
+        <Button color="inherit" component={NavLink} to="/analysis">
+          Analysis
+        </Button>
+        <Button color="inherit" component={NavLink} to="/portfolio">
+          Portfolio
+        </Button>
       </Toolbar>
     </AppBar>
   );
