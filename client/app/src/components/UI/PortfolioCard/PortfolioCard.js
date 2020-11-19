@@ -34,14 +34,17 @@ const useStyles = makeStyles({
 
 const PortfolioCard = (props) => {
   const [returns, setReturns] = useState(null);
+  const [spinner, setSpinner] = useState(false);
   const classes = useStyles();
 
   const onClickHandler = async () => {
+    setSpinner(true);
     const returnsCalc = await props.calculateReturn(
       props.ticker,
       props.price,
       props.quantity
     );
+    setSpinner(false);
     setReturns(returnsCalc);
   };
   return (
@@ -67,7 +70,7 @@ const PortfolioCard = (props) => {
         </Typography>
         <Typography component={"span"} variant="body2">
           <strong>Total Returns: </strong>
-          {props.loading ? <Spinner /> : null}
+          {spinner ? <Spinner /> : null}
           {returns ? returns : null}
         </Typography>
       </CardContent>
