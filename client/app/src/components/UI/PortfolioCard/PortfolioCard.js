@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   initPortfolio,
   calculateReturns,
@@ -33,12 +33,12 @@ const useStyles = makeStyles({
 });
 
 const PortfolioCard = (props) => {
+  const [returns, setReturns] = useState(null);
   const classes = useStyles();
-  let returns = null;
-  const onClickHandler = () => {
-    returns = props.calculateReturn(props.ticker, props.price, props.quantity);
 
-    console.log(returns);
+  const onClickHandler = async () => {
+    const returnsCalc = await props.calculateReturn(props.ticker, props.price, props.quantity);
+    setReturns(returnsCalc);
   };
   return (
     <Card className={classes.root}>
