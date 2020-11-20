@@ -10,12 +10,28 @@ const reducer = (state = inititalState, action) => {
   switch (action.type) {
     case actionTypes.PORTFOLIO_SUCCESS:
       return {
-        ...inititalState,
+        ...state,
         portfolio: action.portfolioData,
       };
     case actionTypes.PORTFOLIO_FAILURE:
       return {
-        ...inititalState,
+        ...state,
+        error: true,
+      };
+    case actionTypes.RETURNS_INIT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.RETURNS_SUCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case actionTypes.RETURNS_FAILURE:
+      return {
+        ...state,
+        loading: false,
         error: true,
       };
     default:

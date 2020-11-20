@@ -11,12 +11,12 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SCAN_SUCCESS:
       return {
-        ...initialState,
+        ...state,
         scanData: action.data,
       };
     case actionTypes.SCAN_FAILURE:
       return {
-        ...initialState,
+        ...state,
         error: action.error,
       };
     default:
