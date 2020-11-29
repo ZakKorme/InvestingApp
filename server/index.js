@@ -10,7 +10,7 @@ require("./db")();
 //ROUTES
 app.use(express.json());
 app.use("/api/portfolio", portfolio);
-app.use("/api/scrape/", scraping);
+app.use("/api/scrape", scraping);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
