@@ -3,6 +3,7 @@ const puppeteer = require("puppeteer");
 const scrapeStock = async (url) => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
+  await page.setDefaultNavigationTimeout(0);
   await page.goto(url);
 
   //Price
@@ -26,8 +27,21 @@ const scrapeStock = async (url) => {
   const raw52WeekRange = await el3.getProperty("textContent");
   const range52Week = await raw52WeekRange.jsonValue();
 
+  //Volume
+  const [el4] = await page.$x(
+    '//*[@id="quote-summary"]/div[1]/table/tbody/tr[7]/td[2]/span'
+  );
+  const rawVolume = await el4.getProperty("textContent");
+  const volume = await rawVolume.jsonValue();
+  //P/E
+  const [el5] = await page.$x(
+    '//*[@id="quote-summary"]/div[2]/table/tbody/tr[3]/td[2]/span'
+  );
+  const rawPE = await el5.getProperty("textContent");
+  const pe = await rawPE.jsonValue();
+
   browser.close();
-  return { price, marketCap, range52Week };
+  return { price, marketCap, range52Week, volume, pe };
 };
 
 module.exports = scrapeStock;

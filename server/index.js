@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 const portfolio = require("./routes/portfolio");
 const scraping = require("./routes/scraping");
@@ -8,6 +9,7 @@ const scraping = require("./routes/scraping");
 require("./db")();
 
 //ROUTES
+app.use(cors());
 app.use(express.json());
 app.use("/api/portfolio", portfolio);
 app.use("/api/scrape", scraping);
