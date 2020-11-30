@@ -21,36 +21,25 @@ const Table = (props) => {
       <Tables className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="right">Open</TableCell>
-            <TableCell align="right">High</TableCell>
-            <TableCell align="right">Low</TableCell>
-            <TableCell align="right">Close</TableCell>
+            <TableCell align="right">Pirce</TableCell>
+            <TableCell align="right">MarketCap</TableCell>
+            <TableCell align="right">52-Week Range</TableCell>
             <TableCell align="right">Volume</TableCell>
+            <TableCell align="right">P/E</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.rows.map((row, index) => {
-            return (
-              <TableRow key={index}>
-                <TableCell align="right">{row[0]}</TableCell>
-                <TableCell align="right">{row[1]}</TableCell>
-                <TableCell align="right">{row[2]}</TableCell>
-                <TableCell align="right">{row[3]}</TableCell>
-                <TableCell align="right">{row[4]}</TableCell>
-              </TableRow>
-            );
-          })}
+          {props.rows ? (
+            <TableRow>
+              <TableCell align="right">{props.rows[0]}</TableCell>
+              <TableCell align="right">{props.rows[1]}</TableCell>
+              <TableCell align="right">{props.rows[2]}</TableCell>
+              <TableCell align="right">{props.rows[3]}</TableCell>
+              <TableCell align="right">{props.rows[4]}</TableCell>
+            </TableRow>
+          ) : null}
         </TableBody>
       </Tables>
-      <Button
-        variant="outlined"
-        color="primary"
-        size="small"
-        href="#contained-buttons"
-        onClick={props.clicked}
-      >
-        Add to WatchList
-      </Button>
     </TableContainer>
   );
 };

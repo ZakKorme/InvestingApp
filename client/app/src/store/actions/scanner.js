@@ -4,18 +4,21 @@ import axios from "axios";
 
 export const initScanning = (scanTicker) => {
   return async (dispatch) => {
-    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${scanTicker}&apikey=UDD24BMW6C2TS3V7`;
     try {
-      const res = await axios.get(url);
-      const data = res.data["Time Series (Daily)"];
-      const columns = Object.keys(data["2020-11-18"]);
-      const rows = [];
-      for (let val in data["2020-11-18"]) {
-        let price = +data["2020-11-18"][val];
-        rows.push(price.toFixed(2));
-      }
+      const res = await axios.get(
+        `http://localhost:5000/api/scrape/` + scanTicker
+      );
+      const data = res.data;
+      const keys = Object.keys(data);
       dispatch(scanSucess);
-      return [columns, [rows]];
+      return [
+        keys,
+        data.price,
+        data.marketCap,
+        data.range52Week,
+        data.volume,
+        data.pe,
+      ];
     } catch (err) {
       dispatch(scanFailure(err));
       console.error(err);
