@@ -1,2 +1,8 @@
+# server
 server/node_modules/
+
+# client
 client/app/node_modules/
+
+# data
+data/
