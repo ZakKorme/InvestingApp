@@ -1,17 +1,28 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
+// import { getDailyPrice } from "../../shared/utility";
 
 export const initScanning = (scanTicker) => {
-  return (dispatch) => {
-    const url = "";
-    axios
-      .get(url)
-      .then((res) => {
-        dispatch(scanSucess(res));
-      })
-      .catch((err) => {
-        dispatch(scanFailure(err));
-      });
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/scrape/` + scanTicker
+      );
+      const data = res.data;
+      const keys = Object.keys(data);
+      dispatch(scanSucess);
+      return [
+        keys,
+        data.price,
+        data.marketCap,
+        data.range52Week,
+        data.volume,
+        data.pe,
+      ];
+    } catch (err) {
+      dispatch(scanFailure(err));
+      console.error(err);
+    }
   };
 };
 
