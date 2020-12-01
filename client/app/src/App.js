@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { initPortfolio } from "./store/actions/portfolio";
+import { initWatchlist } from "./store/actions/watchlist";
 import Navigation from "./components/Navigation/Navigation";
 import Home from "./containers/Home/Home";
 import Scan from "./containers/Scan/Scan";
@@ -10,11 +11,12 @@ import Analysis from "./containers/Analysis/Analysis";
 import Portfolio from "./containers/Portfolio/Portfolio";
 
 function App(props) {
-  const { initPortfolio } = props;
+  const { initPortfolio, initWatchlist } = props;
 
   useEffect(() => {
     initPortfolio();
-  }, [initPortfolio]);
+    initWatchlist();
+  }, [initPortfolio, initWatchlist]);
 
   let routes = (
     <Switch>
@@ -37,6 +39,7 @@ function App(props) {
 const mapDispatchToProps = (dispatch) => {
   return {
     initPortfolio: () => dispatch(initPortfolio()),
+    initWatchlist: () => dispatch(initWatchlist()),
   };
 };
 

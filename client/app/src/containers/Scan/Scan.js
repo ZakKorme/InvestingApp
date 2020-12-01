@@ -5,6 +5,7 @@ import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Table from "../../components/UI/Table/Table";
 import { initScanning } from "../../store/actions/scanner";
+import { addToWatchlist } from "../../store/actions/watchlist";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 const Scan = (props) => {
@@ -13,29 +14,38 @@ const Scan = (props) => {
   const [scanDataRows, setScanDataRows] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const onClickHandler = async (e) => {
-    setLoading(true);
-    setScanDataColumns(null);
-    setScanDataRows(null);
+  const onScanClickHandler = async (e) => {
+    loadingHandler();
     const [keys, ...rowData] = await props.initScan(ticker);
     setLoading(false);
-    console.log(rowData);
     setScanDataColumns(keys);
     setScanDataRows(rowData);
   };
+  const loadingHandler = () => {
+    setLoading(true);
+    setScanDataColumns(null);
+    setScanDataRows(null);
+  };
+
   const onChangeHandler = (e) => {
     setTicker(e.target.value);
+  };
+
+  const onWatchlistHandler = async () => {
+    const scanTicker = ticker;
+    await props.addToWatchList(scanTicker);
+    console.log("Added to Watchlist");
   };
 
   return (
     <div>
       <Input changed={onChangeHandler} />
-      <Button clicked={onClickHandler}>Scan</Button>
+      <Button clicked={onScanClickHandler}>Scan</Button>
       <div>
         {scanDataColumns && scanDataRows ? (
           <div>
             <Table rows={scanDataRows} />
-            <Button>ADD TO WATCHLIST</Button>
+            <Button clicked={onWatchlistHandler}>ADD TO WATCHLIST</Button>
           </div>
         ) : null}
         {loading ? <Spinner /> : null}
@@ -53,6 +63,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     initScan: (scanTicker) => dispatch(initScanning(scanTicker)),
+    addToWatchList: (scanTicker) => dispatch(addToWatchlist(scanTicker)),
   };
 };
 
