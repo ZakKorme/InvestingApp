@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   watchlist: null,
   loading: null,
+  error: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,9 +14,22 @@ const reducer = (state = initialState, action) => {
         watchlist: action.watchlist,
       };
     case actionTypes.WATCHLIST_SUCCESS:
-      return {};
+      return { ...state };
     case actionTypes.WATCHLIST_FAILURE:
-      return {};
+      return {
+        ...state,
+        error: action.error,
+      };
+    case actionTypes.ANALYSIS_INIT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.ANALYSIS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

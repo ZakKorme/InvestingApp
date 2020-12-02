@@ -23,7 +23,7 @@ export const addToWatchlist = (scanTicker) => {
       dispatch(returnSuccess());
     } catch (err) {
       console.log(err);
-      dispatch(returnFailure());
+      dispatch(returnFailure(err));
     }
   };
 };
@@ -41,8 +41,21 @@ export const returnSuccess = () => {
   };
 };
 
-export const returnFailure = () => {
+export const returnFailure = (err) => {
   return {
     type: actionTypes.WATCHLIST_SUCCESS,
+    error: err,
+  };
+};
+
+export const initAnalysis = () => {
+  return {
+    type: actionTypes.ANALYSIS_INIT,
+  };
+};
+
+export const successAnalysis = () => {
+  return {
+    type: actionTypes.ANALYSIS_SUCCESS,
   };
 };
