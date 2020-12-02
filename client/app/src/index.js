@@ -8,6 +8,7 @@ import thunk from "redux-thunk";
 
 import portfolioReducer from "./store/reducers/portfolio";
 import scannerReducer from "./store/reducers/scanner";
+import watchlistReducer from "./store/reducers/watchlist";
 
 const composeEnhancers =
   process.env.NODE_ENV === "development"
@@ -17,6 +18,7 @@ const composeEnhancers =
 const rootReducer = combineReducers({
   portfolio: portfolioReducer,
   scanner: scannerReducer,
+  watchlist: watchlistReducer,
 });
 
 const store = createStore(
