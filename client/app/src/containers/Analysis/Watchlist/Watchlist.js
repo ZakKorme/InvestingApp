@@ -29,7 +29,6 @@ const Watchlist = (props) => {
   const onChangeHandler = (event) => {
     setSwitchHandler(event.target.checked);
     if (event.target.checked) {
-      console.log("WE in this");
       props.initAnalysis();
       setTimeout(() => {
         props.successAnalysis();
