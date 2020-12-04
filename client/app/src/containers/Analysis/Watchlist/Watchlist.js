@@ -38,7 +38,6 @@ const Watchlist = (props) => {
       props.initAnalysis();
       setTimeout(() => {
         props.successAnalysis();
-        setSwitchHandler(false);
       }, 2000);
     }
   };
