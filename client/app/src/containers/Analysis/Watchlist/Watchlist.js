@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Switch from "@material-ui/core/Switch";
 import Avatar from "@material-ui/core/Avatar";
 import Spinner from "../../../components/UI/Spinner/Spinner";
+
 import {
   initAnalysis,
   successAnalysis,
@@ -19,6 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
   Avatar: {
     display: "center",
+    paddingBottom: "10px",
+  },
+  divInLine: {
+    display: "block",
+    paddingTop: "5px",
   },
 }));
 
@@ -29,11 +35,9 @@ const Watchlist = (props) => {
   const onChangeHandler = (event) => {
     setSwitchHandler(event.target.checked);
     if (event.target.checked) {
-      console.log("WE in this");
       props.initAnalysis();
       setTimeout(() => {
         props.successAnalysis();
-        setSwitchHandler(false);
       }, 2000);
     }
   };
@@ -42,7 +46,18 @@ const Watchlist = (props) => {
       <div>
         <Paper elevation={3} className={classes.root}>
           <Avatar>{props.ticker.split("")[0]}</Avatar>
-          <strong>Stock</strong>: {props.ticker}
+          <div className={classes.divInLine}>
+            <strong>Stock</strong>: {props.ticker}
+          </div>
+          <div className={classes.divInLine}>
+            <strong>Added Date</strong>:{props.dateAdded}
+          </div>
+          <div className={classes.divInLine}>
+            <strong>Added Price</strong>:{props.priceAdded}
+          </div>
+          <div className={classes.divInLine}>
+            <strong>Weekly Change Price</strong>: {props.dateAdded}
+          </div>
           <Switch
             color="primary"
             onChange={onChangeHandler}

@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   watchlist: null,
+  statements: null,
   loading: null,
   error: null,
 };
@@ -24,11 +25,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        statements: null,
       };
     case actionTypes.ANALYSIS_SUCCESS:
       return {
         ...state,
         loading: false,
+        statements: true,
       };
     default:
       return state;
