@@ -48,14 +48,38 @@ export const returnFailure = (err) => {
   };
 };
 
-export const initAnalysis = () => {
+export const initAnalysis = (ticker) => {
   return {
     type: actionTypes.ANALYSIS_INIT,
+    ticker: ticker
   };
 };
 
-export const successAnalysis = () => {
+export const getAnalysis = (ticker) => {
+  return async (dispatch) => {
+    dispatch(initAnalysis(ticker));
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/scrape/financials/${ticker}`
+      );
+      const data = res.data;
+      dispatch(successAnalysis(data));
+    } catch (err) {
+      console.log(err);
+      dispatch(failureAnalysis());
+    }
+  };
+};
+
+export const successAnalysis = (statements) => {
   return {
     type: actionTypes.ANALYSIS_SUCCESS,
+    statements: statements,
+  };
+};
+
+export const failureAnalysis = () => {
+  return {
+    type: actionTypes.ANALYSIS_FAILURE,
   };
 };

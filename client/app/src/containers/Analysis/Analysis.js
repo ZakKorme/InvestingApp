@@ -35,7 +35,9 @@ const Analysis = (props) => {
       ) : null}
       {loading ? <Spinner /> : null}
       {props.statements ? (
-        <FinancialStatements className={classes.FinancialStatements} />
+        <FinancialStatements
+          className={classes.FinancialStatements}
+        />
       ) : null}
     </div>
   );

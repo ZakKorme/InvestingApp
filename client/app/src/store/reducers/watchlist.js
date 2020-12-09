@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   watchlist: null,
+  ticker: null,
   statements: null,
   loading: null,
   error: null,
@@ -26,12 +27,18 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: true,
         statements: null,
+        ticker: action.ticker,
       };
     case actionTypes.ANALYSIS_SUCCESS:
       return {
         ...state,
         loading: false,
-        statements: true,
+        statements: action.statements,
+      };
+    case actionTypes.ANALYSIS_FAILURE:
+      return {
+        ...state,
+        error: true,
       };
     default:
       return state;

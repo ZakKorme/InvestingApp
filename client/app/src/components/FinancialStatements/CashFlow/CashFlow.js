@@ -1,9 +1,19 @@
 import React from "react";
+import classes from "../FinancialStatements.module.css";
 
 const CashFlow = (props) => {
+  let cashFlow = props.cashFlow ? props.cashFlow.map(data => {
+    let value = Object.keys(data)[0];
+    return (
+      <div key={value} className={classes.FinancialStatementItems}>
+      <h4>{value}</h4>
+      <p>{data[value]}</p>
+      </div>
+    );
+  })  : null;
   return (
-    <div>
-      <p>This will be the CashFlow Statement</p>
+    <div className={classes.FinancialStatements}>
+      {cashFlow}
     </div>
   );
 };

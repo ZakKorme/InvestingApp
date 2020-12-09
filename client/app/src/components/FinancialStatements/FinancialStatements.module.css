@@ -1,0 +1,10 @@
+.FinancialStatements {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: center;
+}
+.FinancialStatementItems {
+  margin: 10px;
+}

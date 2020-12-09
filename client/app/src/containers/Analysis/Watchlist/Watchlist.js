@@ -5,12 +5,8 @@ import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import Switch from "@material-ui/core/Switch";
 import Avatar from "@material-ui/core/Avatar";
-import Spinner from "../../../components/UI/Spinner/Spinner";
 
-import {
-  initAnalysis,
-  successAnalysis,
-} from "../../../store/actions/watchlist";
+import { getAnalysis } from "../../../store/actions/watchlist";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,15 +28,15 @@ const Watchlist = (props) => {
   const [switchHandler, setSwitchHandler] = useState(false);
   const classes = useStyles();
 
-  const onChangeHandler = (event) => {
+  const onChangeHandler = async (event) => {
+    console.log("onChange Handler");
     setSwitchHandler(event.target.checked);
     if (event.target.checked) {
-      props.initAnalysis();
-      setTimeout(() => {
-        props.successAnalysis();
-      }, 2000);
+      await props.getAnalysis(props.ticker);
     }
+    setSwitchHandler(!event.target.checked);
   };
+
   return (
     <div>
       <div>
@@ -69,11 +65,16 @@ const Watchlist = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    initAnalysis: () => dispatch(initAnalysis()),
-    successAnalysis: () => dispatch(successAnalysis()),
+    statements: state.watchlist.statements,
   };
 };
 
-export default connect(null, mapDispatchToProps)(Watchlist);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAnalysis: (ticker) => dispatch(getAnalysis(ticker)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Watchlist);
