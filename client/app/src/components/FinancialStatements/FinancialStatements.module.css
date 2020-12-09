@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   justify-content: space-around;
   align-content: center;
+  padding-top: 10px;
 }
 .FinancialStatementItems {
   margin: 10px;

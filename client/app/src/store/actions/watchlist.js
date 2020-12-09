@@ -83,3 +83,9 @@ export const failureAnalysis = () => {
     type: actionTypes.ANALYSIS_FAILURE,
   };
 };
+
+export const clearAnalysis = () => {
+  return {
+    type: actionTypes.ANALYSIS_CLEAR
+  }
+}

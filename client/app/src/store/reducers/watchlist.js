@@ -40,6 +40,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         error: true,
       };
+    case actionTypes.ANALYSIS_CLEAR: 
+      return {
+        ...state,
+        ticker: null,
+        statements: null
+      }
     default:
       return state;
   }

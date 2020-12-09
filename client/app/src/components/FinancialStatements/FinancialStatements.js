@@ -9,12 +9,18 @@ import TabList from "@material-ui/lab/TabList";
 import BalanceSheet from "./BalanceSheet/BalanceSheet";
 import CashFlow from "./CashFlow/CashFlow";
 import IncomeStatement from "./IncomeStatement/IncomeStatement";
+import Button from "../UI/Button/Button";
+import { clearAnalysis } from '../../store/actions/watchlist';
 
 const FinancialStatements = (props) => {
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const onClearHandler = async () => {
+    await props.onClear();
   };
 
   return (
@@ -38,6 +44,7 @@ const FinancialStatements = (props) => {
           ticker={props.ticker}
         />
       </TabPanel>
+      <Button clicked={onClearHandler}>CLEAR</Button>
     </TabContext>
   );
 };
@@ -50,4 +57,10 @@ const mapStateToProps = (state) => {
     ticker: state.watchlist.ticker
   }
 }
-export default connect(mapStateToProps)(FinancialStatements);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onClear: () => dispatch(clearAnalysis())
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(FinancialStatements);
