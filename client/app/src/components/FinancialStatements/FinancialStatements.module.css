@@ -1,0 +1,27 @@
+.FinancialStatements {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}
+.FinancialStatementItems {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 10px;
+}
+
+.Title {
+  display: inline-flex;
+  justify-content: center;
+  align-content: center;
+  padding-left: 42%;
+}
+
+.Bar {
+  background-color: black;
+  color: white;
+}

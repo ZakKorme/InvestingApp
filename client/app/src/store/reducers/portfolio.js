@@ -1,9 +1,9 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const inititalState = {
-  error: null,
-  loading: false,
   portfolio: {},
+  error: null,
+  loading: false
 };
 
 const reducer = (state = inititalState, action) => {

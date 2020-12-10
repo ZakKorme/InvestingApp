@@ -1,47 +1,74 @@
 import React, { useState } from "react";
-import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
+import { connect } from "react-redux";
 import Tab from "@material-ui/core/Tab";
 import TabContext from "@material-ui/lab/TabContext";
 import TabPanel from "@material-ui/lab/TabPanel";
+import AppBar from "@material-ui/core/AppBar";
+import TabList from "@material-ui/lab/TabList";
 
 import BalanceSheet from "./BalanceSheet/BalanceSheet";
 import CashFlow from "./CashFlow/CashFlow";
 import IncomeStatement from "./IncomeStatement/IncomeStatement";
+import Button from "../UI/Button/Button";
+import { clearAnalysis } from "../../store/actions/watchlist";
+import classes from "./FinancialStatements.module.css";
 
-const FinancialStatements = () => {
-  const [value, setValue] = useState(2);
+const FinancialStatements = (props) => {
+  const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const onClearHandler = async () => {
+    await props.onClear();
+  };
+
   return (
     <TabContext value={value}>
-      <Paper square>
-        <Tabs
-          centered
-          variant="fullWidth"
-          value={value}
-          indicatorColor="primary"
-          textColor="primary"
+      <AppBar position="static" className={classes.Bar}>
+        <TabList
           onChange={handleChange}
+          aria-label="simple tabs example"
+          centered
         >
           <Tab label="Balance Sheet" value="1" />
-          <Tab label="Cash Flow Statement" value="2" />
+          <Tab label="Cash Flow" value="2" />
           <Tab label="Income Statement" value="3" />
-        </Tabs>
-        <TabPanel value="1" index={0}>
-          <BalanceSheet />
-        </TabPanel>
-        <TabPanel value="2" index={1}>
-          <CashFlow />
-        </TabPanel>
-        <TabPanel value="3" index={2}>
-          <IncomeStatement />
-        </TabPanel>
-      </Paper>
+        </TabList>
+      </AppBar>
+      <TabPanel value="1">
+        <BalanceSheet balanceSheet={props.balanceSheet} ticker={props.ticker} />
+      </TabPanel>
+      <TabPanel value="2">
+        <CashFlow cashFlow={props.cashFlow} ticker={props.ticker} />
+      </TabPanel>
+      <TabPanel value="3">
+        <IncomeStatement
+          incomeStatement={props.incomeStatement}
+          ticker={props.ticker}
+        />
+      </TabPanel>
+      <Button clicked={onClearHandler}>CLEAR</Button>
     </TabContext>
   );
 };
-export default FinancialStatements;
+
+const mapStateToProps = (state) => {
+  return {
+    balanceSheet: state.watchlist.statements.balanceSheet,
+    cashFlow: state.watchlist.statements.cashFlow,
+    incomeStatement: state.watchlist.statements.incomeStatement,
+    ticker: state.watchlist.ticker,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onClear: () => dispatch(clearAnalysis()),
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FinancialStatements);

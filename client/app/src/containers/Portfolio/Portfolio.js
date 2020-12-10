@@ -1,5 +1,11 @@
+import classes from "./Portfolio.module.css";
+
 const Portfolio = (props) => {
-  return <p>This is the Portfolio Page</p>;
+  return (
+    <div className={classes.root}>
+      <p>This is the Portfolio Page</p>
+    </div>
+  );
 };
 
 export default Portfolio;
