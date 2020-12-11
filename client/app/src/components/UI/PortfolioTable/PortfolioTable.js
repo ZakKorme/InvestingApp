@@ -14,7 +14,6 @@ import BusinessIcon from "@material-ui/icons/Business";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
 import { getAnalysis } from "../../../store/actions/watchlist";
-import Chip from "@material-ui/core/Chip";
 
 const columns = [
   { id: "avatar", label: "#", maxWidth: 80 },
@@ -39,6 +38,12 @@ const columns = [
     align: "right",
   },
   {
+    id: "shares",
+    label: "Shares",
+    maxWidth: 80,
+    align: "right",
+  },
+  {
     id: "action",
     label: "Financials",
     maxWidth: 80,
@@ -52,15 +57,8 @@ const useStyles = makeStyles({
   root: {
     width: "48%",
   },
-  root2: {
-    width: "70%",
-  },
   container: {
     maxHeight: 340,
-  },
-  title: {
-    display: "flex",
-    justifyContent: "center",
   },
 });
 
@@ -74,27 +72,24 @@ const StockTable = (props) => {
     await props.getAnalysis(ticker);
   };
 
-  if (props.watchlist) {
-    props.watchlist.map((ticker) => {
-      if (!validateWatchlist(rows, ticker["ticker"])) {
+  if (props.portfolio) {
+    props.portfolio.map((stock) => {
+      if (!validateWatchlist(rows, stock["ticker"])) {
         //Will update API To add the follow values: companyName, date and price
         rows.push({
           avatar: (
             <Avatar style={{ backgroundColor: "black" }}>
-              {ticker["ticker"].split("")[0]}
+              {stock["tickerSymbol"].split("")[0]}
             </Avatar>
           ),
-          ticker: ticker["ticker"],
+          ticker: stock["tickerSymbol"],
           companyName: "BAC",
-          dateAdded: "07/28/1000",
-          priceAdded: "$28.97",
-          currentPrice: "$35.89",
+          dateAdded: stock["purchasedDate"],
+          priceAdded: `$${stock["purchasedPrice"]}`,
+          currentPrice: "$10.00",
+          shares: stock["numberOfShares"],
           action: (
-            <IconButton
-              onClick={(e) => {
-                onClickHandler(e, ticker["ticker"]);
-              }}
-            >
+            <IconButton>
               <BusinessIcon />
             </IconButton>
           ),
@@ -114,7 +109,7 @@ const StockTable = (props) => {
   };
 
   return (
-    <Paper className={props.width ? classes.root : classes.root2}>
+    <Paper className={classes.root}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
