@@ -6,3 +6,6 @@ client/app/node_modules/
 
 # data
 data/
+
+# miscellaneous
+.vscode/
