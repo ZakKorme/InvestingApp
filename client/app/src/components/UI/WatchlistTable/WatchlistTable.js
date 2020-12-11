@@ -80,7 +80,7 @@ const StockTable = (props) => {
           companyName: "BAC",
           dateAdded: "07/28/1000",
           priceAdded: "$28.97",
-          currentPrice: "$35.89",
+          currentPrice: ticker["currentPrice"],
           action: (
             <IconButton
               onClick={(e) => {
