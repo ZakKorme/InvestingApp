@@ -14,12 +14,8 @@ const Portfolio = (props) => {
         alignItems="center"
         className={classes.gridContainer}
       >
-        <h4 style={{ width: "48%", textAlign: "center", fontFamily: "" }}>
-          Watchlist
-        </h4>
-        <h4 style={{ width: "48%", textAlign: "center", fontFamily: "" }}>
-          Portfolio
-        </h4>
+        <h4 className={classes.Title}>Watchlist</h4>
+        <h4 className={classes.Title}>Portfolio</h4>
         <WatchlistTable watchlist={props.watchlist} width={{ width: "50%" }} />
         <PorfolioTable portfolio={props.portfolio} width="50%" />
       </Grid>
