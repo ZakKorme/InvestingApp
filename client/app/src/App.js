@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { initPortfolio } from "./store/actions/portfolio";
-import { initWatchlist } from "./store/actions/watchlist";
+import { initWatchlist, autoUpdateWatchlist } from "./store/actions/watchlist";
 import Navigation from "./components/Navigation/Navigation";
 import Home from "./containers/Home/Home";
 import Scan from "./containers/Scan/Scan";
@@ -11,12 +11,16 @@ import Analysis from "./containers/Analysis/Analysis";
 import Portfolio from "./containers/Portfolio/Portfolio";
 
 function App(props) {
-  const { initPortfolio, initWatchlist } = props;
+  const { initPortfolio, initWatchlist, autoUpdateWatchlist } = props;
 
   useEffect(() => {
     initPortfolio();
     initWatchlist();
   }, [initPortfolio, initWatchlist]);
+
+  const autoUpdateInterval = setInterval(() => {
+    autoUpdateWatchlist();
+  }, 2 * 60 * 1000); // 2 mins
 
   let routes = (
     <Switch>
@@ -40,6 +44,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     initPortfolio: () => dispatch(initPortfolio()),
     initWatchlist: () => dispatch(initWatchlist()),
+    autoUpdateWatchlist: () => dispatch(autoUpdateWatchlist()),
   };
 };
 

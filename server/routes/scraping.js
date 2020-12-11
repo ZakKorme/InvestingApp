@@ -10,8 +10,7 @@ router.get("/:id", async (req, res) => {
   let stockData = null;
   try {
     const ticker = req.params.id;
-    let url = `https://finance.yahoo.com/quote/${ticker}?p=${ticker}`;
-    stockData = await scrapeStock(url);
+    stockData = await scrapeStock(ticker);
   } catch (err) {
     console.error(err);
   }
