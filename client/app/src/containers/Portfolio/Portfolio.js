@@ -3,6 +3,7 @@ import classes from "./Portfolio.module.css";
 import WatchlistTable from "../../components/UI/WatchlistTable/WatchlistTable";
 import PorfolioTable from "../../components/UI/PortfolioTable/PortfolioTable";
 import Grid from "@material-ui/core/Grid";
+import StockInputFields from "../../components/StockInputFields/StockInputFields";
 
 const Portfolio = (props) => {
   return (
@@ -14,8 +15,9 @@ const Portfolio = (props) => {
         alignItems="center"
         className={classes.gridContainer}
       >
-        <h4 className={classes.Title}>Watchlist</h4>
-        <h4 className={classes.Title}>Portfolio</h4>
+        <StockInputFields style={{ width: "100%" }} />
+        {/* <h4 className={classes.Title}>Watchlist</h4>
+        <h4 className={classes.Title}>Portfolio</h4> */}
         <WatchlistTable watchlist={props.watchlist} width={{ width: "50%" }} />
         <PorfolioTable portfolio={props.portfolio} width="50%" />
       </Grid>
