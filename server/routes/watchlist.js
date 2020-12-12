@@ -8,8 +8,15 @@ const { Watchlist, validateWatchlist } = require("../models/watchlist");
 //GET: Get watchlist
 router.get("/", async (req, res) => {
   console.log("running get watchlist");
-  const watchlist = await Watchlist.find();
-  res.send(watchlist);
+
+  try {
+    const watchlist = await Watchlist.find();
+    res.send(watchlist); 
+  } catch (e) {
+    console.log("Encountered the following error while trying to get currentPrice:");
+    console.error(e);
+    res.status(404).send({ error: e });
+  }
 });
 
 //GET: Get watchlist current prices
@@ -21,14 +28,20 @@ router.get("/currentPrice", async (req, res) => {
   const tickers = watchlists.map(({ ticker }) => ticker);
   const stockCurrentPrices =  await stock.scrapeStocks(tickers);
 
-  for (let [ticker, currentPrice] of Object.entries(stockCurrentPrices)) {
-    await Watchlist.findOneAndUpdate(
-      { ticker: ticker },
-      { currentPrice: currentPrice }
-    );
+  try {
+    for (let [ticker, currentPrice] of Object.entries(stockCurrentPrices)) {
+      await Watchlist.findOneAndUpdate(
+        { ticker: ticker },
+        { currentPrice: currentPrice }
+      );
+    }
+    const watchlist = await Watchlist.find();
+    res.send(watchlist);
+  } catch (e) {
+    console.log("Encountered the following error while trying to get currentPrice:");
+    console.error(e);
+    res.status(404).send({ error: e });
   }
-  const watchlist = await Watchlist.find();
-  res.send(watchlist);
 });
 
 //GET: Get watchlist
