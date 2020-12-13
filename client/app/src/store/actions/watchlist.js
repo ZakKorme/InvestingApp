@@ -17,7 +17,9 @@ export const initWatchlist = () => {
 export const autoUpdateWatchlist = (autoUpdateInterval) => {
   return async (dispatch) => {
     try {
-      const res = await axios.get("http://localhost:5000/api/watchlist/currentPrice");
+      const res = await axios.get(
+        "http://localhost:5000/api/watchlist/currentPrice"
+      );
       const data = res.data;
       console.log(data);
       dispatch(autoUpdateReturnSuccess(data));
@@ -28,11 +30,16 @@ export const autoUpdateWatchlist = (autoUpdateInterval) => {
   };
 };
 
-export const addToWatchlist = (scanTicker) => {
+export const addToWatchlist = (watchlistStock) => {
   return async (dispatch) => {
     try {
+      console.log(watchlistStock);
       await axios.post("http://localhost:5000/api/watchlist/", {
-        ticker: scanTicker,
+        ticker: watchlistStock.ticker,
+        companyName: watchlistStock.companyName,
+        priceAdded: watchlistStock.priceAdded,
+        currentPrice: watchlistStock.currentPrice,
+        priceChange: 0,
       });
       dispatch(returnSuccess());
     } catch (err) {
@@ -72,7 +79,7 @@ export const returnFailure = (err) => {
 export const initAnalysis = (ticker) => {
   return {
     type: actionTypes.ANALYSIS_INIT,
-    ticker: ticker
+    ticker: ticker,
   };
 };
 
@@ -107,6 +114,6 @@ export const failureAnalysis = () => {
 
 export const clearAnalysis = () => {
   return {
-    type: actionTypes.ANALYSIS_CLEAR
-  }
-}
+    type: actionTypes.ANALYSIS_CLEAR,
+  };
+};

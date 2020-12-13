@@ -68,12 +68,19 @@ router.post("/", async (req, res) => {
       .status(404)
       .send("There was an error: Ticker isnt in the correct format");
 
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  const fullDate = `${year}-${month}-${day}`;
+
   let watchlist = new Watchlist({
     ticker: req.body.ticker,
     companyName: req.body.companyName,
-    dateAdded: new Date(),
+    dateAdded: fullDate,
     priceAdded: req.body.priceAdded,
     currentPrice: req.body.currentPrice,
+    priceChange: req.body.priceChange,
     targetPrice: req.body.targetPrice,
   });
   try {

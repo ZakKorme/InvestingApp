@@ -39,6 +39,12 @@ const columns = [
     align: "right",
   },
   {
+    id: "priceChange",
+    label: "Price Change",
+    maxWidth: 80,
+    align: "right",
+  },
+  {
     id: "action",
     label: "Financials",
     maxWidth: 80,
@@ -84,10 +90,11 @@ const WatchlistTable = (props) => {
               </Avatar>
             ),
             ticker: ticker["ticker"],
-            companyName: "BAC",
-            dateAdded: "07/28/1000",
-            priceAdded: "$28.97",
+            companyName: ticker["companyName"],
+            dateAdded: ticker["dateAdded"],
+            priceAdded: `$${ticker["priceAdded"]}`,
             currentPrice: `$${ticker["currentPrice"]}`,
+            priceChange: `${ticker["priceChange"]}%`,
             action: (
               <IconButton
                 onClick={(e) => {
