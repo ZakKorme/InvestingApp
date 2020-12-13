@@ -20,7 +20,7 @@ export const autoUpdateWatchlist = () => {
       const res = await axios.get("http://localhost:5000/api/watchlist/currentPrice");
       const data = res.data;
       console.log(data);
-      dispatch(initReturnSuccess(data));
+      dispatch(autoUpdateReturnSuccess(data));
     } catch (err) {
       console.log(err);
     }
@@ -44,6 +44,13 @@ export const addToWatchlist = (scanTicker) => {
 export const initReturnSuccess = (watchlist) => {
   return {
     type: actionTypes.WATCHLIST_INIT_SUCCESS,
+    watchlist: watchlist,
+  };
+};
+
+export const autoUpdateReturnSuccess = (watchlist) => {
+  return {
+    type: actionTypes.WATCHLIST_AUTOUPDATE_SUCCESS,
     watchlist: watchlist,
   };
 };

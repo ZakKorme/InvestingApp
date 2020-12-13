@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -45,7 +45,7 @@ const columns = [
   },
 ];
 
-const rows = [];
+let rows = [];
 
 const useStyles = makeStyles({
   root: {
@@ -66,35 +66,43 @@ const StockTable = (props) => {
     await props.getAnalysis(ticker);
   };
 
-  if (props.watchlist) {
-    props.watchlist.map((ticker) => {
-      if (!validateWatchlist(rows, ticker["ticker"])) {
-        //Will update API To add the follow values: companyName, date and price
-        rows.push({
-          avatar: (
-            <Avatar style={{ backgroundColor: "black" }}>
-              {ticker["ticker"].split("")[0]}
-            </Avatar>
-          ),
-          ticker: ticker["ticker"],
-          companyName: "BAC",
-          dateAdded: "07/28/1000",
-          priceAdded: "$28.97",
-          currentPrice: ticker["currentPrice"],
-          action: (
-            <IconButton
-              onClick={(e) => {
-                onClickHandler(e, ticker["ticker"]);
-              }}
-            >
-              <BusinessIcon />
-            </IconButton>
-          ),
-        });
-      }
-      return "";
-    });
+  const updateRows = () => {
+    if (props.watchlist) {
+      rows = [];
+      props.watchlist.map((ticker) => {
+        // TODO: make validation on watchlist to be faster
+        if (!validateWatchlist(rows, ticker["ticker"])) {
+          //Will update API To add the follow values: companyName, date and price
+          rows.push({
+            avatar: (
+              <Avatar style={{ backgroundColor: "black" }}>
+                {ticker["ticker"].split("")[0]}
+              </Avatar>
+            ),
+            ticker: ticker["ticker"],
+            companyName: "BAC",
+            dateAdded: "07/28/1000",
+            priceAdded: "$28.97",
+            currentPrice: ticker["currentPrice"],
+            action: (
+              <IconButton
+                onClick={(e) => {
+                  onClickHandler(e, ticker["ticker"]);
+                }}
+              >
+                <BusinessIcon />
+              </IconButton>
+            ),
+          });
+        }
+        return "";
+      });
+    }
   }
+
+  useEffect(() => {
+    updateRows();
+  }, [props.watchlist]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -104,6 +112,8 @@ const StockTable = (props) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  updateRows();
 
   return (
     <Paper className={classes.root}>

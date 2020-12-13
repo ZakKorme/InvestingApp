@@ -15,6 +15,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         watchlist: action.watchlist,
       };
+    case actionTypes.WATCHLIST_AUTOUPDATE_SUCCESS:
+      return {
+        ...state,
+        watchlist: action.watchlist,
+      };
     case actionTypes.WATCHLIST_SUCCESS:
       return { ...state };
     case actionTypes.WATCHLIST_FAILURE:
