@@ -11,9 +11,11 @@ router.get("/", async (req, res) => {
 
   try {
     const watchlist = await Watchlist.find();
-    res.send(watchlist); 
+    res.send(watchlist);
   } catch (e) {
-    console.log("Encountered the following error while trying to get currentPrice:");
+    console.log(
+      "Encountered the following error while trying to get currentPrice:"
+    );
     console.error(e);
     res.status(404).send({ error: e });
   }
@@ -23,10 +25,11 @@ router.get("/", async (req, res) => {
 router.get("/currentPrice", async (req, res) => {
   console.log("running get watchlist current price");
   const watchlists = await Watchlist.find({}, { ticker: 1, _id: 0 });
-  if (!watchlists) return res.status(404).send("The stock is not in the database. you suck");
+  if (!watchlists)
+    return res.status(404).send("The stock is not in the database. you suck");
 
   const tickers = watchlists.map(({ ticker }) => ticker);
-  const stockCurrentPrices =  await stock.scrapeStocks(tickers);
+  const stockCurrentPrices = await stock.scrapeStocks(tickers);
 
   try {
     for (let [ticker, currentPrice] of Object.entries(stockCurrentPrices)) {
@@ -38,7 +41,9 @@ router.get("/currentPrice", async (req, res) => {
     const watchlist = await Watchlist.find();
     res.send(watchlist);
   } catch (e) {
-    console.log("Encountered the following error while trying to get currentPrice:");
+    console.log(
+      "Encountered the following error while trying to get currentPrice:"
+    );
     console.error(e);
     res.status(404).send({ error: e });
   }
@@ -65,6 +70,11 @@ router.post("/", async (req, res) => {
 
   let watchlist = new Watchlist({
     ticker: req.body.ticker,
+    companyName: req.body.companyName,
+    dateAdded: new Date(),
+    priceAdded: req.body.priceAdded,
+    currentPrice: req.body.currentPrice,
+    targetPrice: req.body.targetPrice,
   });
   try {
     watchlist = await watchlist.save();

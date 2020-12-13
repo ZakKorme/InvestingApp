@@ -14,6 +14,7 @@ export const initScanning = (scanTicker) => {
       return [
         keys,
         data.price,
+        data.companyName,
         data.marketCap,
         data.range52Week,
         data.volume,

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const scrapeStock = require("../utility/scrape/stock");
+const stock = require("../utility/scrape/stock");
 const scrapeBalanceSheet = require("../utility/scrape/balancesheet");
 const scrapeCashFlow = require("../utility/scrape/cashflow");
 const scrapeIncomeStatement = require("../utility/scrape/incomestatement");
@@ -10,10 +10,11 @@ router.get("/:id", async (req, res) => {
   let stockData = null;
   try {
     const ticker = req.params.id;
-    stockData = await scrapeStock(ticker);
+    stockData = await stock.scrapeStock(ticker);
   } catch (err) {
     console.error(err);
   }
+  console.log(stockData);
   res.send(stockData);
 });
 

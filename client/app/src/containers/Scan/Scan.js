@@ -17,6 +17,7 @@ const Scan = (props) => {
   const onScanClickHandler = async (e) => {
     loadingHandler();
     const [keys, ...rowData] = await props.initScan(ticker);
+    console.log(keys, rowData);
     setLoading(false);
     setScanDataColumns(keys);
     setScanDataRows(rowData);

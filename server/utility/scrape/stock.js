@@ -10,7 +10,7 @@ const getStockPrice = async (page, url) => {
   const rawPrice = await el.getProperty("textContent");
   const price = await rawPrice.jsonValue();
   return price;
-}
+};
 
 const scrapeStocks = async (tickers) => {
   const browser = await puppeteer.launch();
@@ -28,7 +28,7 @@ const scrapeStocks = async (tickers) => {
   }
 
   return stockCurrentPrices;
-}
+};
 
 const scrapeStock = async (ticker, priceOnly = false) => {
   const url = `https://finance.yahoo.com/quote/${ticker}?p=${ticker}`;
@@ -38,6 +38,13 @@ const scrapeStock = async (ticker, priceOnly = false) => {
 
   // Price
   const price = await getStockPrice(page, url);
+
+  //Company Name
+  const [el1] = await page.$x(
+    '//*[@id="quote-header-info"]/div[2]/div[1]/div[1]/h1'
+  );
+  const rawCompanyName = await el1.getProperty("textContent");
+  const companyName = await rawCompanyName.jsonValue();
 
   //Market Cap
   const [el2] = await page.$x(
@@ -67,7 +74,7 @@ const scrapeStock = async (ticker, priceOnly = false) => {
   const pe = await rawPE.jsonValue();
 
   browser.close();
-  return { price, marketCap, range52Week, volume, pe };
+  return { price, companyName, marketCap, range52Week, volume, pe };
 };
 
 exports.scrapeStock = scrapeStock;
