@@ -19,7 +19,13 @@ function App(props) {
   }, [initPortfolio, initWatchlist]);
 
   const autoUpdateInterval = setInterval(() => {
-    autoUpdateWatchlist();
+    const currentTime = new Date();
+    if (currentTime.getDate() > 5 || (currentTime.getHours() < 14 || currentTime.getHours() > 20)) {
+      clearInterval(autoUpdateInterval);
+      console.log("Market is not currently open.");
+      return;
+    }
+    autoUpdateWatchlist(autoUpdateInterval);
   }, 2 * 60 * 1000); // 2 mins
 
   let routes = (

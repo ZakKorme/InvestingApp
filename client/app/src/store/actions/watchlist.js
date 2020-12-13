@@ -14,7 +14,7 @@ export const initWatchlist = () => {
   };
 };
 
-export const autoUpdateWatchlist = () => {
+export const autoUpdateWatchlist = (autoUpdateInterval) => {
   return async (dispatch) => {
     try {
       const res = await axios.get("http://localhost:5000/api/watchlist/currentPrice");
@@ -23,6 +23,7 @@ export const autoUpdateWatchlist = () => {
       dispatch(autoUpdateReturnSuccess(data));
     } catch (err) {
       console.log(err);
+      clearInterval(autoUpdateInterval);
     }
   };
 };
