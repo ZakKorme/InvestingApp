@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -14,6 +14,7 @@ import BusinessIcon from "@material-ui/icons/Business";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
 import { getAnalysis } from "../../../store/actions/watchlist";
+import getCurrentPrice from "../../../shared/getCurrentPrice";
 
 const columns = [
   { id: "avatar", label: "#", maxWidth: 80 },
@@ -56,17 +57,20 @@ const useStyles = makeStyles({
   },
 });
 
-const StockTable = (props) => {
+const WatchlistTable = (props) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(3);
 
-  const onClickHandler = async (event, ticker) => {
-    event.preventDefault();
-    await props.getAnalysis(ticker);
-  };
+  const onClickHandler = useCallback(
+    async (event, ticker) => {
+      event.preventDefault();
+      await props.getAnalysis(ticker);
+    },
+    [props]
+  );
 
-  const updateRows = () => {
+  const updateRows = useCallback(() => {
     if (props.watchlist) {
       rows = [];
       props.watchlist.map((ticker) => {
@@ -83,7 +87,7 @@ const StockTable = (props) => {
             companyName: "BAC",
             dateAdded: "07/28/1000",
             priceAdded: "$28.97",
-            currentPrice: ticker["currentPrice"],
+            currentPrice: `$${ticker["currentPrice"]}`,
             action: (
               <IconButton
                 onClick={(e) => {
@@ -98,11 +102,11 @@ const StockTable = (props) => {
         return "";
       });
     }
-  }
+  }, [props.watchlist, onClickHandler]);
 
   useEffect(() => {
-    updateRows();
-  }, [props.watchlist]);
+    getCurrentPrice(rows, props.watchlist);
+  }, [props.watchlist, updateRows]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -183,4 +187,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(StockTable);
+export default connect(null, mapDispatchToProps)(WatchlistTable);
