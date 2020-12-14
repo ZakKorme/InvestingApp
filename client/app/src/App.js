@@ -30,7 +30,7 @@ function App(props) {
       return;
     }
     autoUpdateWatchlist(autoUpdateInterval);
-  }, 120 * 1000); // 2 mins
+  }, 30 * 1000); // 2 mins
 
   let routes = (
     <Switch>

@@ -31,12 +31,6 @@ const watchlistSchema = new mongoose.Schema({
     min: 0,
     max: 1000000,
   },
-  priceChange: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 1000000,
-  },
   targetPrice: {
     type: Number,
     required: false,
@@ -53,7 +47,6 @@ const validateWatchlist = (watchlistTicker) => {
     companyName: Joi.string().min(1).max(1000).required(),
     priceAdded: Joi.number().min(1).max(1000000).required(),
     currentPrice: Joi.number().min(0).max(1000000).required(),
-    priceChange: Joi.number().min(0).max(1000000).required(),
     targetPrice: Joi.number().min(0).max(1000000),
   });
   return schema.validate(watchlistTicker);

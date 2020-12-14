@@ -80,7 +80,6 @@ router.post("/", async (req, res) => {
     dateAdded: fullDate,
     priceAdded: req.body.priceAdded,
     currentPrice: req.body.currentPrice,
-    priceChange: req.body.priceChange,
     targetPrice: req.body.targetPrice,
   });
   try {

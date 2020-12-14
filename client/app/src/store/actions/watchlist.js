@@ -6,7 +6,6 @@ export const initWatchlist = () => {
     try {
       const res = await axios.get("http://localhost:5000/api/watchlist/");
       const data = res.data;
-      console.log(data);
       dispatch(initReturnSuccess(data));
     } catch (err) {
       console.log(err);
@@ -33,13 +32,11 @@ export const autoUpdateWatchlist = (autoUpdateInterval) => {
 export const addToWatchlist = (watchlistStock) => {
   return async (dispatch) => {
     try {
-      console.log(watchlistStock);
       await axios.post("http://localhost:5000/api/watchlist/", {
         ticker: watchlistStock.ticker,
         companyName: watchlistStock.companyName,
         priceAdded: watchlistStock.priceAdded,
         currentPrice: watchlistStock.currentPrice,
-        priceChange: 0,
       });
       dispatch(returnSuccess());
     } catch (err) {

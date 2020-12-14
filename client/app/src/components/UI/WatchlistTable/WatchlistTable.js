@@ -78,7 +78,6 @@ const WatchlistTable = (props) => {
 
   const updateRows = useCallback(() => {
     if (props.watchlist) {
-      rows = [];
       props.watchlist.map((ticker) => {
         // TODO: make validation on watchlist to be faster
         if (!validateWatchlist(rows, ticker["ticker"])) {
@@ -94,7 +93,11 @@ const WatchlistTable = (props) => {
             dateAdded: ticker["dateAdded"],
             priceAdded: `$${ticker["priceAdded"]}`,
             currentPrice: `$${ticker["currentPrice"]}`,
-            priceChange: `${ticker["priceChange"]}%`,
+            priceChange: `${(
+              ((ticker["currentPrice"] - ticker["priceAdded"]) /
+                ticker["priceAdded"]) *
+              100
+            ).toFixed(2)} %`,
             action: (
               <IconButton
                 onClick={(e) => {
@@ -112,7 +115,7 @@ const WatchlistTable = (props) => {
   }, [props.watchlist, onClickHandler]);
 
   useEffect(() => {
-    getCurrentPrice(rows, props.watchlist);
+    rows = getCurrentPrice(rows, props.watchlist);
   }, [props.watchlist, updateRows]);
 
   const handleChangePage = (event, newPage) => {
