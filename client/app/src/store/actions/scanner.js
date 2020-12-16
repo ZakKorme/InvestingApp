@@ -6,7 +6,7 @@ export const initScanning = (scanTicker) => {
   return async (dispatch) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/scrape/` + scanTicker
+        `http://localhost:5000/api/scrape/${scanTicker}`
       );
       const data = res.data;
       const keys = Object.keys(data);
@@ -14,6 +14,7 @@ export const initScanning = (scanTicker) => {
       return [
         keys,
         data.price,
+        data.companyName,
         data.marketCap,
         data.range52Week,
         data.volume,

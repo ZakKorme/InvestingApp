@@ -32,8 +32,14 @@ const Scan = (props) => {
   };
 
   const onWatchlistHandler = async () => {
-    const scanTicker = ticker;
-    await props.addToWatchList(scanTicker);
+    const watchlistStock = {
+      ticker: ticker,
+      companyName: scanDataRows[1],
+      priceAdded: scanDataRows[0],
+      currentPrice: scanDataRows[0],
+    };
+    console.log(watchlistStock);
+    await props.addToWatchList(watchlistStock);
     console.log("Added to Watchlist");
   };
 
