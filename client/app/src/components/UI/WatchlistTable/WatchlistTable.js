@@ -13,14 +13,9 @@ import validateWatchlist from "../../../shared/validateWatchlist";
 import BusinessIcon from "@material-ui/icons/Business";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
-<<<<<<< HEAD
-import { getAnalysis } from "../../../store/actions/watchlist";
-import Chip from "@material-ui/core/Chip";
-=======
 import { getAnalysis, addTargetPrice } from "../../../store/actions/watchlist";
 import getCurrentPrice from "../../../shared/getCurrentPrice";
 import AddIcon from "@material-ui/icons/Add";
->>>>>>> f9e481cfa2aa4a6bd804936adcdd3f002160cd5b
 
 const columns = [
   { id: "avatar", label: "#", maxWidth: 80 },

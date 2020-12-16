@@ -86,10 +86,10 @@ const StockTable = (props) => {
             </Avatar>
           ),
           ticker: stock["tickerSymbol"],
-          companyName: "BAC",
+          companyName: stock["companyName"],
           dateAdded: stock["purchasedDate"],
           priceAdded: `$${stock["purchasedPrice"]}`,
-          currentPrice: "$10.00",
+          currentPrice: `$${stock["currentPrice"]}`,
           shares: stock["numberOfShares"],
           action: (
             <IconButton>
