@@ -54,8 +54,11 @@ const columns = [
 const rows = [];
 
 const useStyles = makeStyles({
-  root: {
+  root1: {
     width: "48%",
+  },
+  root2: {
+    width: "70%",
   },
   container: {
     maxHeight: 340,
@@ -109,7 +112,7 @@ const StockTable = (props) => {
   };
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={props.width ? classes.root1 : classes.root2}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>

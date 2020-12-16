@@ -16,11 +16,17 @@ const Portfolio = (props) => {
         className={classes.gridContainer}
       >
         <StockInputFields style={{ width: "100%" }} />
-        {/* <h4 className={classes.Title}>Watchlist</h4>
-        <h4 className={classes.Title}>Portfolio</h4> */}
-        <WatchlistTable watchlist={props.watchlist} width={{ width: "50%" }} />
-        <PorfolioTable portfolio={props.portfolio} width="50%" />
       </Grid>
+      <div className={classes.TableDiv}>
+        <div classNameq={classes.items}>
+          <h2 className={classes.Title2}>Watchlist</h2>
+          <WatchlistTable watchlist={props.watchlist} />
+        </div>
+        <div>
+          <h2 className={classes.Title2}>Portfolio</h2>
+          <PorfolioTable portfolio={props.portfolio} />
+        </div>
+      </div>
     </div>
   );
 };
