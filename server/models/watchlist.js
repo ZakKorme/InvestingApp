@@ -45,7 +45,7 @@ const validateWatchlist = (watchlistTicker) => {
   const schema = Joi.object({
     ticker: Joi.string().uppercase().min(1).max(4).required(),
     companyName: Joi.string().min(1).max(1000).required(),
-    priceAdded: Joi.number().min(1).max(1000000).required(),
+    priceAdded: Joi.number().min(0).max(1000000).required(),
     currentPrice: Joi.number().min(0).max(1000000).required(),
     targetPrice: Joi.number().min(0).max(1000000),
   });

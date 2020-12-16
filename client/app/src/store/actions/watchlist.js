@@ -114,3 +114,43 @@ export const clearAnalysis = () => {
     type: actionTypes.ANALYSIS_CLEAR,
   };
 };
+
+export const addTargetPrice = (ticker, target) => {
+  return async (dispatch) => {
+    dispatch(initTargetSet());
+    console.log(ticker, target);
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/api/watchlist/${ticker}`,
+        {
+          targetPrice: "" + target,
+        }
+      );
+      const watchlist = res.data;
+      console.log(watchlist);
+      dispatch(targetSetSuccess(watchlist));
+    } catch (err) {
+      console.log(err);
+      dispatch(targetSetFailure);
+    }
+  };
+};
+
+export const initTargetSet = () => {
+  return {
+    type: actionTypes.WATCHLIST_SET_TARGET_INIT,
+  };
+};
+
+export const targetSetSuccess = (watchlist) => {
+  return {
+    type: actionTypes.WATCHLIST_SET_TARGET_SUCCESS,
+    watchlist: watchlist,
+  };
+};
+
+export const targetSetFailure = () => {
+  return {
+    type: actionTypes.WATCHLIST_SET_TARGET_FAILURE,
+  };
+};

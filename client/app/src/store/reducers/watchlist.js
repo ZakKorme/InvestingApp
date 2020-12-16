@@ -45,12 +45,30 @@ const reducer = (state = initialState, action) => {
         ...state,
         error: true,
       };
-    case actionTypes.ANALYSIS_CLEAR: 
+    case actionTypes.ANALYSIS_CLEAR:
       return {
         ...state,
         ticker: null,
-        statements: null
-      }
+        statements: null,
+      };
+    case actionTypes.WATCHLIST_SET_TARGET_INIT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.WATCHLIST_SET_TARGET_SUCCESS:
+      return {
+        ...state,
+        watchlist: action.watchlist,
+        loading: false,
+      };
+    case actionTypes.WATCHLIST_INIT_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
+    }
     default:
       return state;
   }

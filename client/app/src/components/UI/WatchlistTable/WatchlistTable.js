@@ -13,8 +13,9 @@ import validateWatchlist from "../../../shared/validateWatchlist";
 import BusinessIcon from "@material-ui/icons/Business";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
-import { getAnalysis } from "../../../store/actions/watchlist";
+import { getAnalysis, addTargetPrice } from "../../../store/actions/watchlist";
 import getCurrentPrice from "../../../shared/getCurrentPrice";
+import AddIcon from "@material-ui/icons/Add";
 
 const columns = [
   { id: "avatar", label: "#", maxWidth: 80 },
@@ -45,7 +46,13 @@ const columns = [
     align: "right",
   },
   {
-    id: "action",
+    id: "action1",
+    label: "Target Price",
+    maxWidth: 80,
+    align: "right",
+  },
+  {
+    id: "action2",
     label: "Financials",
     maxWidth: 80,
     align: "right",
@@ -67,11 +74,22 @@ const WatchlistTable = (props) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [target, setTarget] = useState(0);
+  const [targetState, setTargetState] = useState(false);
+  const [ticker, setTicker] = useState("");
 
-  const onClickHandler = useCallback(
+  const onGetAnalysisHandler = useCallback(
     async (event, ticker) => {
       event.preventDefault();
       await props.getAnalysis(ticker);
+    },
+    [props]
+  );
+
+  const onSetTargetHandler = useCallback(
+    async (event, ticker, target) => {
+      event.preventDefault();
+      await props.addTargetPrice(ticker, target);
     },
     [props]
   );
@@ -81,7 +99,6 @@ const WatchlistTable = (props) => {
       props.watchlist.map((ticker) => {
         // TODO: make validation on watchlist to be faster
         if (!validateWatchlist(rows, ticker["ticker"])) {
-          //Will update API To add the follow values: companyName, date and price
           rows.push({
             avatar: (
               <Avatar style={{ backgroundColor: "black" }}>
@@ -98,10 +115,22 @@ const WatchlistTable = (props) => {
                 ticker["priceAdded"]) *
               100
             ).toFixed(2)} %`,
-            action: (
+            action1: ticker["targetPrice"] ? (
+              ticker["targetPrice"]
+            ) : (
               <IconButton
                 onClick={(e) => {
-                  onClickHandler(e, ticker["ticker"]);
+                  setTargetState(true);
+                  setTicker(ticker["ticker"]);
+                }}
+              >
+                <AddIcon />
+              </IconButton>
+            ),
+            action2: (
+              <IconButton
+                onClick={(e) => {
+                  onGetAnalysisHandler(e, ticker["ticker"]);
                 }}
               >
                 <BusinessIcon />
@@ -112,7 +141,7 @@ const WatchlistTable = (props) => {
         return "";
       });
     }
-  }, [props.watchlist, onClickHandler]);
+  }, [props.watchlist, onGetAnalysisHandler]);
 
   useEffect(() => {
     rows = getCurrentPrice(rows, props.watchlist);
@@ -187,6 +216,24 @@ const WatchlistTable = (props) => {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      {targetState ? (
+        <div>
+          <strong>TARGET PRICE:</strong>{" "}
+          <input
+            type="text"
+            onChange={(e) => {
+              setTarget(e.target.value);
+            }}
+          ></input>
+          <button
+            onClick={(e) => {
+              onSetTargetHandler(e, ticker, target);
+            }}
+          >
+            Submit
+          </button>
+        </div>
+      ) : null}
     </Paper>
   );
 };
@@ -194,6 +241,8 @@ const WatchlistTable = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAnalysis: (ticker) => dispatch(getAnalysis(ticker)),
+    addTargetPrice: (ticker, target) =>
+      dispatch(addTargetPrice(ticker, target)),
   };
 };
 

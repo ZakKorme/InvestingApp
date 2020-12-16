@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const cors = require("cors");
 
 const stock = require("../utility/scrape/stock");
 
@@ -63,10 +64,7 @@ router.post("/", async (req, res) => {
   const { error } = validateWatchlist(req.body);
   console.log(req.body);
 
-  if (error)
-    return res
-      .status(404)
-      .send("There was an error: Ticker isnt in the correct format");
+  if (error) return res.status(404).send(error);
 
   const date = new Date();
   const day = date.getDate();
@@ -88,6 +86,18 @@ router.post("/", async (req, res) => {
   } catch (err) {
     console.log("Couldn't upload to Database");
   }
+});
+
+//PUT : Update a stock
+router.put("/:id", cors(), async (req, res) => {
+  const watchlist = await Watchlist.findOneAndUpdate(
+    { ticker: req.params.id },
+    { targetPrice: req.body.targetPrice }
+  );
+
+  if (!watchlist)
+    return res.status(404).send("This stock does not exist in the watchlist");
+  res.send(watchlist);
 });
 
 module.exports = router;
