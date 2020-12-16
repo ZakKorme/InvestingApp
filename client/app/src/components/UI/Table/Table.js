@@ -6,7 +6,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
   table: {
@@ -21,7 +20,8 @@ const Table = (props) => {
       <Tables className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="right">Pirce</TableCell>
+            <TableCell align="right">Price</TableCell>
+            <TableCell align="right">Company Name</TableCell>
             <TableCell align="right">MarketCap</TableCell>
             <TableCell align="right">52-Week Range</TableCell>
             <TableCell align="right">Volume</TableCell>
@@ -36,6 +36,7 @@ const Table = (props) => {
               <TableCell align="right">{props.rows[2]}</TableCell>
               <TableCell align="right">{props.rows[3]}</TableCell>
               <TableCell align="right">{props.rows[4]}</TableCell>
+              <TableCell align="right">{props.rows[5]}</TableCell>
             </TableRow>
           ) : null}
         </TableBody>

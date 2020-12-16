@@ -7,5 +7,9 @@ client/app/node_modules/
 # data
 data/
 
+<<<<<<< HEAD
 # vscode
+=======
+# miscellaneous
+>>>>>>> f9e481cfa2aa4a6bd804936adcdd3f002160cd5b
 .vscode/
