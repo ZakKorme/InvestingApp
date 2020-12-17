@@ -9,11 +9,12 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
-import validateWatchlist from "../../../shared/validateWatchlist";
 import BusinessIcon from "@material-ui/icons/Business";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
 import { getAnalysis } from "../../../store/actions/watchlist";
+import validatePortfolio from "../../../shared/validatePorfolio";
+import numberWithCommas from "../../../shared/numbersWithCommas";
 
 const columns = [
   { id: "avatar", label: "#", maxWidth: 80 },
@@ -40,6 +41,12 @@ const columns = [
   {
     id: "shares",
     label: "Shares",
+    maxWidth: 80,
+    align: "right",
+  },
+  {
+    id: "totalPosition",
+    label: "Total Position",
     maxWidth: 80,
     align: "right",
   },
@@ -77,8 +84,9 @@ const StockTable = (props) => {
 
   if (props.portfolio) {
     props.portfolio.map((stock) => {
-      if (!validateWatchlist(rows, stock["ticker"])) {
+      if (!validatePortfolio(rows, stock["tickerSymbol"])) {
         //Will update API To add the follow values: companyName, date and price
+        let total = numberWithCommas(stock["currentPrice"] * stock["numberOfShares"]);
         rows.push({
           avatar: (
             <Avatar style={{ backgroundColor: "black" }}>
@@ -88,9 +96,10 @@ const StockTable = (props) => {
           ticker: stock["tickerSymbol"],
           companyName: stock["companyName"],
           dateAdded: stock["purchasedDate"],
-          priceAdded: `$${stock["purchasedPrice"]}`,
-          currentPrice: `$${stock["currentPrice"]}`,
+          priceAdded: `$${numberWithCommas(stock["purchasedPrice"])}`,
+          currentPrice: `$${numberWithCommas(stock["currentPrice"])}`,
           shares: stock["numberOfShares"],
+          totalPosition: `$${total}`,
           action: (
             <IconButton>
               <BusinessIcon />

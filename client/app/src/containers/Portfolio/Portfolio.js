@@ -18,7 +18,7 @@ const Portfolio = (props) => {
         <StockInputFields style={{ width: "100%" }} />
       </Grid>
       <div className={classes.TableDiv}>
-        <div classNameq={classes.items}>
+        <div className={classes.items}>
           <h2 className={classes.Title2}>Watchlist</h2>
           <WatchlistTable watchlist={props.watchlist} />
         </div>

@@ -68,3 +68,79 @@ export const returnsFailure = () => {
     type: actionTypes.RETURNS_FAILURE,
   };
 };
+
+
+export const addToPortfolio = (stock) => {
+  return async (dispatch) => {
+    dispatch(initAddToPortfolio());
+    try {
+      const res = axios.post("http://localhost:5000/api/portfolio", {
+        tickerSymbol: stock.ticker,
+        companyName: stock.companyName,
+        purchasedPrice: stock.price,
+        currentPrice: stock.price,
+        numberOfShares: stock.shares
+      });
+      const data = res.data;
+      dispatch(addToPortfolioSuccess(data));    
+    } catch (err) {
+      console.log(err);
+      dispatch(addToPortfolioFailure(err));
+    }
+  };
+};
+
+export const initAddToPortfolio = () => {
+  return {
+    type: actionTypes.PORTFOLIO_ADD_INIT,
+  };
+};
+
+export const addToPortfolioSuccess = (portfolio) => {
+  return {
+    type: actionTypes.PORTFOLIO_ADD_SUCCESS,
+    portfolio: portfolio
+  }
+};
+
+export const addToPortfolioFailure = (err) => {
+  return {
+    type: actionTypes.PORTFOLIO_ADD_FAILURE,
+    error: err
+  }
+};
+
+
+export const removePortfolio = (stock) => {
+  return async (dispatch) => {
+    dispatch(removePortfolioInit());
+    try {
+      const res = await axios.delete(`http://localhost:5000/api/portfolio/${stock}`);
+      const data = res.data;
+      dispatch(removePortfolioSuccess(data));
+    } catch (err) {
+      console.log(err);
+      dispatch(removePortfolioFailure(err))
+    }
+  };
+};
+
+export const removePortfolioInit = () => {
+  return {
+    type: actionTypes.PORTFOLIO_REMOVE_INIT,
+  };
+};
+
+export const removePortfolioSuccess = (portfolio) => {
+  return {
+    type: actionTypes.PORTFOLIO_REMOVE_SUCCESS,
+    portfolio: portfolio
+  };
+};
+
+export const removePortfolioFailure = (err) => {
+  return {
+    type: actionTypes.PORTFOLIO_REMOVE_FAILURE,
+    error: err,
+  };
+};

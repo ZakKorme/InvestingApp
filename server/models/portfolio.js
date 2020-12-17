@@ -26,7 +26,7 @@ const portfolioSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 0,
-    max: 10000
+    max: 100000
   },
   purchasedDate: {
     type: String,
@@ -45,9 +45,10 @@ const Portfolio = mongoose.model("Portfolio", portfolioSchema);
 const validatePortfolio = (stockEntry) => {
   const schema = Joi.object({
     tickerSymbol: Joi.string().uppercase().min(1).max(4).required(),
-    companyName: Joi.sdtring().min(1).max(256).required(),
+    companyName: Joi.string().min(1).max(256).required(),
+    currentPrice: Joi.number().min(0).max(100000).required(),
     purchasedPrice: Joi.number().min(0).max(1000000).required(),
-    purchasedDate: Joi.string().greater("9-28-1987").required(),
+    purchasedDate: Joi.string(),
     numberOfShares: Joi.number().min(0).max(1000000).required(),
   });
   return schema.validate(stockEntry);

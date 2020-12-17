@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { connect } from 'react-redux';
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -7,6 +8,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import { addToPortfolio, removePortfolio } from '../../store/actions/portfolio';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -31,6 +34,41 @@ const StockInputFields = (props) => {
   const [price, setPrice] = useState("");
   const [position, setPosition] = useState("");
   const [add, setAdd] = useState("");
+  const [shares, setShares] = useState("");
+  const [target, setTarget] = useState("");
+
+  const onClickHandler = async () => {
+    const stock = {
+      ticker, companyName, 
+      price: Number(price), 
+      shares: Number(shares),
+    };
+    if (add === "Add" && position === "Portfolio") {
+        await props.addToPortfolio(stock);
+        clearInputFields();
+    } else if (add === "Remove" && position === "Portfolio") {
+        await props.removePortfolio(stock.ticker);
+        clearInputFields();
+    }
+    // if (add ==== "Add" && position === "Portfolio") {
+    //   await props.addToPortfolio(stock);
+    //   clearInputFields();
+    // } else if (add === "Remove" && position === "Portfolio") {
+    //   await props.removePortfolio(stock.ticker);
+    //   clearInputFields();
+    // }
+    
+  };
+
+  const clearInputFields = () => {
+    setCompanyName("");
+    setTicker("");
+    setPrice("");
+    setPosition("");
+    setAdd("");
+    setShares("");
+    setTarget("");
+  }
 
   const companyNameHandler = (event) => {
     setCompanyName(event.target.value);
@@ -44,11 +82,122 @@ const StockInputFields = (props) => {
     setPrice(event.target.value);
   };
   const positionHandler = (event) => {
-    setPosition(event.target.value);
+    if (position === "Watchlist") {
+      setPosition("Portfolio");
+    } else {
+      setPosition("Watchlist");
+    }
+    console.log(position);
   };
   const addHandler = (event) => {
     setAdd(event.target.value);
   };
+  const sharesHandler = (event) => {
+    setShares(event.target.value);
+  };
+  const targetHandler = (event) => {
+    setTarget(event.target.value);
+  }
+
+  let watchlistAdd = (
+    <div>
+      <TextField
+          id="standard-multiline-flexible"
+          label="Company Name"
+          multiline
+          rowsMax={4}
+          value={companyName}
+          onChange={companyNameHandler}
+        />
+        <TextField
+          id="standard-textarea1"
+          label="Ticker"
+          value={ticker}
+          onChange={tickerHandler}
+          multiline
+        />
+        <TextField
+          id="standard-textarea2"
+          label="Price"
+          value={price}
+          onChange={priceHandler}
+          multiline
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
+        />
+        <TextField
+          id="standard-textarea3"
+          label="Target Price"
+          value={target}
+          onChange={targetHandler}
+          multiline
+          InputProps={{
+            startAdornment: <InputAdornment position="start">#</InputAdornment>,
+          }}
+        />
+    </div>
+  );
+  let watchlistRemove = (
+    <div>
+      <TextField
+          id="standard-textarea1"
+          label="Ticker"
+          value={ticker}
+          onChange={tickerHandler}
+          multiline
+        />
+    </div>
+  );
+  let portfolioAdd = (  
+  <div>
+  <TextField
+    id="standard-multiline-flexible"
+    label="Company Name"
+    multiline
+    rowsMax={4}
+    value={companyName}
+    onChange={companyNameHandler}
+  />
+  <TextField
+    id="standard-textarea1"
+    label="Ticker"
+    value={ticker}
+    onChange={tickerHandler}
+    multiline
+  />
+  <TextField
+    id="standard-textarea2"
+    label="Price"
+    value={price}
+    onChange={priceHandler}
+    multiline
+    InputProps={{
+      startAdornment: <InputAdornment position="start">$</InputAdornment>,
+    }}
+  />
+  <TextField
+    id="standard-textarea3"
+    label="Shares"
+    value={shares}
+    onChange={sharesHandler}
+    multiline
+    InputProps={{
+      startAdornment: <InputAdornment position="start">#</InputAdornment>,
+    }}
+  />
+  </div>);
+  let portfolioRemove = (
+    <div>
+      <TextField
+          id="standard-textarea1"
+          label="Ticker"
+          value={ticker}
+          onChange={tickerHandler}
+          multiline
+        />
+    </div>
+  );
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
@@ -90,37 +239,16 @@ const StockInputFields = (props) => {
             >
               <MenuItem value=""></MenuItem>
               <MenuItem value="Watchlist">Watchlist</MenuItem>
-              <MenuItem value="Porfolio">Portfolio</MenuItem>
+              <MenuItem value="Portfolio">Portfolio</MenuItem>
             </Select>
           </FormControl>
         </div>
       </div>
       <div className={classes.input1}>
-        <TextField
-          id="standard-multiline-flexible"
-          label="Company Name"
-          multiline
-          rowsMax={4}
-          value={companyName}
-          onChange={companyNameHandler}
-        />
-        <TextField
-          id="standard-textarea"
-          label="Ticker"
-          value={ticker}
-          onChange={tickerHandler}
-          multiline
-        />
-        <TextField
-          id="standard-textarea"
-          label="Price"
-          value={price}
-          onChange={priceHandler}
-          multiline
-          InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-          }}
-        />
+        {add === "Add" && position === "Watchlist" ? watchlistAdd : null }
+        {add === "Add" && position === "Portfolio" ? portfolioAdd : null }
+        {add === "Remove" && position === "Watchlist" ? watchlistRemove : null }
+        {add === "Remove" && position === "Portfolio" ? portfolioRemove : null }
         <div
           style={{
             paddingBottom: "40px",
@@ -137,8 +265,9 @@ const StockInputFields = (props) => {
                 backgroundColor: "black",
                 marginTop: "5px",
               }}
+              onClick={onClickHandler}
             >
-              {add} to {position}
+              {add} {position}
             </Button>
           ) : null}
         </div>
@@ -147,4 +276,11 @@ const StockInputFields = (props) => {
   );
 };
 
-export default StockInputFields;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToPortfolio: (stock) => dispatch(addToPortfolio(stock)),
+    removePortfolio: (stock) => dispatch(removePortfolio(stock)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(StockInputFields);
