@@ -69,6 +69,23 @@ const reducer = (state = initialState, action) => {
         error: true,
       };
     }
+    case actionTypes.WATCHLIST_REMOVE_INIT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case actionTypes.WATCHLIST_REMOVE_SUCCESS:
+      return {
+        ...state,
+        watchlist: action.watchlist,
+        loading: false,
+      };
+    case actionTypes.WATCHLIST_REMOVE_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
     default:
       return state;
   }

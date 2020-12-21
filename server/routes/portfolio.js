@@ -20,12 +20,20 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   //Validation
   const { error } = validatePortfolio(req.body);
-  if (error) return res.status(404).send(error.details[0].message);
+  if (error) return res.status(404).send("There was an issue in validation");
   //Add Stock
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  const fullDate = `${year}-${month}-${day}`;
+
   let portfolio = new Portfolio({
     tickerSymbol: req.body.tickerSymbol,
+    companyName: req.body.companyName,
     purchasedPrice: req.body.purchasedPrice,
-    purchasedDate: req.body.purchasedDate,
+    currentPrice: req.body.currentPrice,
+    purchasedDate: fullDate,
     numberOfShares: req.body.numberOfShares,
   });
   try {
@@ -57,10 +65,12 @@ router.put("/:id", async (req, res) => {
 });
 //DELETE : Delete a stock
 router.delete("/:id", async (req, res) => {
-  const portfolio = await Portfolio.findOneAndDelete({
+  let portfolio = await Portfolio.findOneAndDelete({
     tickerSymbol: req.params.id,
   });
   if (!portfolio) return res.status(404).send("Stock Not In Portfolio");
+
+  portfolio = await Portfolio.find();
   res.send(portfolio);
 });
 

@@ -35,8 +35,9 @@ export const addToWatchlist = (watchlistStock) => {
       await axios.post("http://localhost:5000/api/watchlist/", {
         ticker: watchlistStock.ticker,
         companyName: watchlistStock.companyName,
-        priceAdded: watchlistStock.priceAdded,
-        currentPrice: watchlistStock.currentPrice,
+        priceAdded: watchlistStock.price,
+        currentPrice: watchlistStock.price,
+        targetPrice: watchlistStock.targetPrice,
       });
       dispatch(returnSuccess());
     } catch (err) {
@@ -152,5 +153,39 @@ export const targetSetSuccess = (watchlist) => {
 export const targetSetFailure = () => {
   return {
     type: actionTypes.WATCHLIST_SET_TARGET_FAILURE,
+  };
+};
+
+export const removeWatchlist = (stock) => {
+  return async (dispatch) => {
+    dispatch(removeWatchlistInit());
+    try {
+      const res = await axios.delete(`http://localhost:5000/api/watchlist/${stock}`);
+      const data = res.data;
+      dispatch(removeWatchlistSuccess(data));
+    } catch (err) {
+      console.log(err);
+      dispatch(removeWatchlistFailure(err))
+    }
+  };
+};
+
+export const removeWatchlistInit = () => {
+  return {
+    type: actionTypes.WATCHLIST_REMOVE_INIT,
+  };
+};
+
+export const removeWatchlistSuccess = (watchlist) => {
+  return {
+    type: actionTypes.WATCHLIST_REMOVE_SUCCESS,
+    watchlist: watchlist,
+  };
+};
+
+export const removeWatchlistFailure = (err) => {
+  return {
+    type: actionTypes.WATCHLIST_REMOVE_FAILURE,
+    error: err
   };
 };

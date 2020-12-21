@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
-const { number } = require("joi");
+
 
 const watchlistSchema = new mongoose.Schema({
   ticker: {

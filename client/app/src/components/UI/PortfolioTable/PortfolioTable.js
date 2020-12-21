@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -9,13 +9,12 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
-import validateWatchlist from "../../../shared/validateWatchlist";
 import BusinessIcon from "@material-ui/icons/Business";
 import IconButton from "@material-ui/core/IconButton";
 import { connect } from "react-redux";
-import { getAnalysis, addTargetPrice } from "../../../store/actions/watchlist";
-import getCurrentPrice from "../../../shared/getCurrentPrice";
-import AddIcon from "@material-ui/icons/Add";
+import { getAnalysis } from "../../../store/actions/watchlist";
+import validatePortfolio from "../../../shared/validatePorfolio";
+import numberWithCommas from "../../../shared/numbersWithCommas";
 
 const columns = [
   { id: "avatar", label: "#", maxWidth: 80 },
@@ -40,29 +39,29 @@ const columns = [
     align: "right",
   },
   {
-    id: "priceChange",
-    label: "Price Change",
+    id: "shares",
+    label: "Shares",
     maxWidth: 80,
     align: "right",
   },
   {
-    id: "action1",
-    label: "Target Price",
+    id: "totalPosition",
+    label: "Total Position",
     maxWidth: 80,
     align: "right",
   },
   {
-    id: "action2",
+    id: "action",
     label: "Financials",
     maxWidth: 80,
     align: "right",
   },
 ];
 
-let rows = [];
+const rows = [];
 
 const useStyles = makeStyles({
-  root: {
+  root1: {
     width: "48%",
   },
   root2: {
@@ -71,88 +70,46 @@ const useStyles = makeStyles({
   container: {
     maxHeight: 340,
   },
-  title: {
-    display: "flex",
-    justifyContent: "center",
-  },
 });
 
-const WatchlistTable = (props) => {
+const StockTable = (props) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(3);
-  const [target, setTarget] = useState(0);
-  const [targetState, setTargetState] = useState(false);
-  const [ticker, setTicker] = useState("");
 
-  const onGetAnalysisHandler = useCallback(
-    async (event, ticker) => {
-      event.preventDefault();
-      await props.getAnalysis(ticker);
-    },
-    [props]
-  );
+  const onClickHandler = async (event, ticker) => {
+    event.preventDefault();
+    await props.getAnalysis(ticker);
+  };
 
-  const onSetTargetHandler = useCallback(
-    async (event, ticker, target) => {
-      event.preventDefault();
-      await props.addTargetPrice(ticker, target);
-    },
-    [props]
-  );
-
-  const updateRows = useCallback(() => {
-    if (props.watchlist) {
-      props.watchlist.map((ticker) => {
-        // TODO: make validation on watchlist to be faster
-        if (!validateWatchlist(rows, ticker["ticker"])) {
-          rows.push({
-            avatar: (
-              <Avatar style={{ backgroundColor: "black" }}>
-                {ticker["ticker"].split("")[0]}
-              </Avatar>
-            ),
-            ticker: ticker["ticker"],
-            companyName: ticker["companyName"],
-            dateAdded: ticker["dateAdded"],
-            priceAdded: `$${ticker["priceAdded"]}`,
-            currentPrice: `$${ticker["currentPrice"]}`,
-            priceChange: `${(
-              ((ticker["currentPrice"] - ticker["priceAdded"]) /
-                ticker["priceAdded"]) *
-              100
-            ).toFixed(2)} %`,
-            action1: ticker["targetPrice"] ? (
-              ticker["targetPrice"]
-            ) : (
-              <IconButton
-                onClick={(e) => {
-                  setTargetState(true);
-                  setTicker(ticker["ticker"]);
-                }}
-              >
-                <AddIcon />
-              </IconButton>
-            ),
-            action2: (
-              <IconButton
-                onClick={(e) => {
-                  onGetAnalysisHandler(e, ticker["ticker"]);
-                }}
-              >
-                <BusinessIcon />
-              </IconButton>
-            ),
-          });
-        }
-        return "";
-      });
-    }
-  }, [props.watchlist, onGetAnalysisHandler]);
-
-  useEffect(() => {
-    rows = getCurrentPrice(rows, props.watchlist);
-  }, [props.watchlist, updateRows]);
+  if (props.portfolio) {
+    props.portfolio.map((stock) => {
+      if (!validatePortfolio(rows, stock["tickerSymbol"])) {
+        //Will update API To add the follow values: companyName, date and price
+        let total = numberWithCommas(stock["currentPrice"] * stock["numberOfShares"]);
+        rows.push({
+          avatar: (
+            <Avatar style={{ backgroundColor: "black" }}>
+              {stock["tickerSymbol"].split("")[0]}
+            </Avatar>
+          ),
+          ticker: stock["tickerSymbol"],
+          companyName: stock["companyName"],
+          dateAdded: stock["purchasedDate"],
+          priceAdded: `$${numberWithCommas(stock["purchasedPrice"])}`,
+          currentPrice: `$${numberWithCommas(stock["currentPrice"])}`,
+          shares: stock["numberOfShares"],
+          totalPosition: `$${total}`,
+          action: (
+            <IconButton>
+              <BusinessIcon />
+            </IconButton>
+          ),
+        });
+      }
+      return "";
+    });
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -163,10 +120,8 @@ const WatchlistTable = (props) => {
     setPage(0);
   };
 
-  updateRows();
-
   return (
-    <Paper className={props.width ? classes.root : classes.root2}>
+    <Paper className={props.width ? classes.root1 : classes.root2}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -223,24 +178,6 @@ const WatchlistTable = (props) => {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-      {targetState ? (
-        <div>
-          <strong>TARGET PRICE:</strong>{" "}
-          <input
-            type="text"
-            onChange={(e) => {
-              setTarget(e.target.value);
-            }}
-          ></input>
-          <button
-            onClick={(e) => {
-              onSetTargetHandler(e, ticker, target);
-            }}
-          >
-            Submit
-          </button>
-        </div>
-      ) : null}
     </Paper>
   );
 };
@@ -248,9 +185,7 @@ const WatchlistTable = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAnalysis: (ticker) => dispatch(getAnalysis(ticker)),
-    addTargetPrice: (ticker, target) =>
-      dispatch(addTargetPrice(ticker, target)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(WatchlistTable);
+export default connect(null, mapDispatchToProps)(StockTable);
