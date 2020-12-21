@@ -100,4 +100,14 @@ router.put("/:id", cors(), async (req, res) => {
   res.send(watchlist);
 });
 
+//DELETE: delete a stock from watchlist
+router.delete("/:id", async (req, res) => {
+  let watchlist = await Watchlist.findOneAndDelete({ ticker: req.params.id });
+
+  if (!watchlist) return res.status(404).send("Stock Not In Portfolio");
+
+  watchlist = await Watchlist.find();
+  res.send(watchlist);
+});
+
 module.exports = router;

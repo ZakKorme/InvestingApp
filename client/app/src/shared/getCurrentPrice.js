@@ -1,6 +1,7 @@
 const getCurrentPrice = (prevRows, updatedRows) => {
   const newRows = prevRows;
   for (let i = 0; i < prevRows.length; i++) {
+    if (!updatedRows[i]) continue;
     let currentPrice = updatedRows[i]["currentPrice"];
     let priceAdded = updatedRows[i]["priceAdded"];
     newRows[i]["currentPrice"] = updatedRows[i]["currentPrice"];

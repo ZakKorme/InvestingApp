@@ -34,7 +34,7 @@ const reducer = (state = inititalState, action) => {
         loading: false,
         error: true,
       };
-    case actionTypes.PORTFOLIO_ADD_INIT: 
+    case actionTypes.PORTFOLIO_ADD_INIT:
       return {
         ...state,
         loading: true,
@@ -43,18 +43,18 @@ const reducer = (state = inititalState, action) => {
       return {
         ...state,
         portfolio: action.portfolio,
-        loading: false
+        loading: false,
       };
     case actionTypes.PORTFOLIO_ADD_FAILURE:
       return {
         ...state,
         error: action.error,
-        loading: false
-      }
+        loading: false,
+      };
     case actionTypes.PORTFOLIO_REMOVE_INIT:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case actionTypes.PORTFOLIO_REMOVE_SUCCESS:
       return {
@@ -67,7 +67,7 @@ const reducer = (state = inititalState, action) => {
         ...state,
         loading: false,
         error: action.error,
-      }
+      };
     default:
       return state;
   }
