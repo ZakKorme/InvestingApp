@@ -20,17 +20,25 @@ function App(props) {
 
   const autoUpdateInterval = setInterval(() => {
     const currentTime = new Date();
+
+    const timezoneOffset = currentTime.toLocaleString("en-US", {
+      timeZone: "America/New_York",
+    });
+    const timeSplit = timezoneOffset.split(" ");
+    const easternHour = Number(timeSplit[1].split(":")[0]);
+    const amOrPm = timeSplit[2];
+
     if (
-      currentTime.getDate() > 5 ||
-      currentTime.getHours() < 14 ||
-      currentTime.getHours() > 20
+      currentTime.getUTCDay() > 5 ||
+      (easternHour > 4 && amOrPm === "PM") ||
+      (easternHour < 9 && amOrPm === "AM")
     ) {
       clearInterval(autoUpdateInterval);
       console.log("Market is not currently open.");
       return;
     }
     autoUpdateWatchlist(autoUpdateInterval);
-  }, 120 * 1000); // 2 mins
+  }, 30 * 1000); // 2 mins
 
   let routes = (
     <Switch>
