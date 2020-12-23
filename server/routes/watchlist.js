@@ -8,7 +8,7 @@ const { Watchlist, validateWatchlist } = require("../models/watchlist");
 
 //GET: Get watchlist
 router.get("/", async (req, res) => {
-  console.log("running get watchlist");
+  console.log("Getting watchlist");
 
   try {
     const watchlist = await Watchlist.find();
@@ -24,10 +24,9 @@ router.get("/", async (req, res) => {
 
 //GET: Get watchlist current prices
 router.get("/currentPrice", async (req, res) => {
-  console.log("running get watchlist current price");
+  console.log("Getting watchlist current price");
   const watchlists = await Watchlist.find({}, { ticker: 1, _id: 0 });
-  if (!watchlists)
-    return res.status(404).send("The stock is not in the database. you suck");
+  if (!watchlists) return res.status(404).send("The stock is not in the database.");
 
   const tickers = watchlists.map(({ ticker }) => ticker);
   const stockCurrentPrices = await stock.scrapeStocks(tickers);
@@ -41,6 +40,7 @@ router.get("/currentPrice", async (req, res) => {
     }
     const watchlist = await Watchlist.find();
     res.send(watchlist);
+  
   } catch (e) {
     console.log(
       "Encountered the following error while trying to get currentPrice:"
@@ -72,14 +72,16 @@ router.post("/", async (req, res) => {
   const year = date.getFullYear();
   const fullDate = `${year}-${month}-${day}`;
 
+  const { ticker, companyName, priceAdded, currentPrice, targetPrice } = req.body;
   let watchlist = new Watchlist({
-    ticker: req.body.ticker,
-    companyName: req.body.companyName,
+    ticker,
+    companyName,
     dateAdded: fullDate,
-    priceAdded: req.body.priceAdded,
-    currentPrice: req.body.currentPrice,
-    targetPrice: req.body.targetPrice,
+    priceAdded,
+    currentPrice,
+    targetPrice,
   });
+  
   try {
     watchlist = await watchlist.save();
     res.send(watchlist);
@@ -103,7 +105,6 @@ router.put("/:id", cors(), async (req, res) => {
 //DELETE: delete a stock from watchlist
 router.delete("/:id", async (req, res) => {
   let watchlist = await Watchlist.findOneAndDelete({ ticker: req.params.id });
-
   if (!watchlist) return res.status(404).send("Stock Not In Portfolio");
 
   watchlist = await Watchlist.find();
