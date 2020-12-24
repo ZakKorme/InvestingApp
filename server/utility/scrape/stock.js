@@ -30,7 +30,7 @@ const scrapeStocks = async (tickers) => {
   return stockCurrentPrices;
 };
 
-const scrapeStock = async (ticker, priceOnly = false) => {
+const scrapeStock = async (ticker) => {
   const url = `https://finance.yahoo.com/quote/${ticker}?p=${ticker}`;
   const browser = await puppeteer.launch();
   const page = await browser.newPage();

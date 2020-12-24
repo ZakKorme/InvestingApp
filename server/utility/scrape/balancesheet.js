@@ -7,31 +7,31 @@ const scrapeBalanceSheet = async (url) => {
   await page.goto(url);
 
   //Balance Sheet
-  let yearBalanceSheet =
+  const yearBalanceSheet =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[1]/div/div[2]/span';
-  let totalAssets =
+  const totalAssets =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/span';
-  let totalLiabilities =
+  const totalLiabilities =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/span';
-  let totalDebt =
+  const totalDebt =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[11]/div[1]/div[2]/span';
-  let tangibleBookValue =
+  const tangibleBookValue =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[10]/div[1]/div[2]/span';
-  let investedCapital =
+  const investedCapital =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[9]/div[1]/div[2]/span';
 
   const balanceSheet = [];
   const balanceSheetSelectors = {
-    yearBalanceSheet: yearBalanceSheet,
-    totalAssets: totalAssets,
-    totalLiabilities: totalLiabilities,
-    totalDebt: totalDebt,
-    tangibleBookValue: tangibleBookValue,
-    investedCapital: investedCapital,
+    yearBalanceSheet,
+    totalAssets,
+    totalLiabilities,
+    totalDebt,
+    tangibleBookValue,
+    investedCapital,
   };
   console.log("BalanceSheet Selectors");
   for (let selector in balanceSheetSelectors) {
-    const [element] = await page.$x(balanceSheetSelectors[selector]);
+    const [ element ] = await page.$x(balanceSheetSelectors[selector]);
     const rawData = await element.getProperty("textContent");
     const data = await rawData.jsonValue();
     let temp = {};
