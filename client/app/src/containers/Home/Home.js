@@ -17,7 +17,7 @@ const Home = (props) => {
   const classes = useStyles();
   const { portfolio } = props;
   const portfolioData =
-    portfolio.length > 1
+    portfolio.length >= 1
       ? portfolio.map((stocks) => {
           let ticker = stocks["tickerSymbol"];
           let price = stocks["purchasedPrice"];
