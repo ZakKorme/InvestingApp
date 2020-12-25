@@ -37,8 +37,8 @@ export const calculateReturns = (ticker, price, shares) => {
     const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=UDD24BMW6C2TS3V7`;
     let currentPrice = 0;
     try {
-      let res = await axios.get(url);
-      let data = res.data;
+      const res = await axios.get(url);
+      const data = res.data;
       currentPrice = +getDailyPrice(data);
       dispatch(returnsSuccess());
     } catch (err) {
@@ -46,7 +46,7 @@ export const calculateReturns = (ticker, price, shares) => {
       return console.error(err);
     }
 
-    let totalReturn = (currentPrice - price) * shares;
+    const totalReturn = (currentPrice - price) * shares;
     return [currentPrice.toFixed(2), +totalReturn.toFixed(2)];
   };
 };

@@ -19,9 +19,9 @@ const Home = (props) => {
   const portfolioData =
     portfolio.length > 1
       ? portfolio.map((stocks) => {
-          let ticker = stocks["tickerSymbol"];
-          let price = stocks["purchasedPrice"];
-          let quantity = stocks["numberOfShares"];
+          const ticker = stocks["tickerSymbol"];
+          const price = stocks["purchasedPrice"];
+          const quantity = stocks["numberOfShares"];
           return (
             <Grid item xs={12} sm={6} md={4} key={ticker}>
               <PortfolioCard
