@@ -72,43 +72,42 @@ const useStyles = makeStyles({
   },
 });
 
+const updatePortfolioTable = (props) => {
+  props.portfolio.map((stock) => {
+    if (validatePortfolio(rows, stock["tickerSymbol"])) return "";
+
+    //Will update API To add the follow values: companyName, date and price
+    const total = numberWithCommas(stock["currentPrice"] * stock["numberOfShares"]);
+    rows.push({
+      avatar: (
+        <Avatar style={{ backgroundColor: "black" }}>
+          {stock["tickerSymbol"].split("")[0]}
+        </Avatar>
+      ),
+      ticker: stock["tickerSymbol"],
+      companyName: stock["companyName"],
+      dateAdded: stock["purchasedDate"],
+      priceAdded: `$${numberWithCommas(stock["purchasedPrice"])}`,
+      currentPrice: `$${numberWithCommas(stock["currentPrice"])}`,
+      shares: stock["numberOfShares"],
+      totalPosition: `$${total}`,
+      action: (
+        <IconButton>
+          <BusinessIcon />
+        </IconButton>
+      ),
+    });
+    return "";
+  });
+}
+
 const StockTable = (props) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(3);
 
-  const onClickHandler = async (event, ticker) => {
-    event.preventDefault();
-    await props.getAnalysis(ticker);
-  };
-
   if (props.portfolio) {
-    props.portfolio.map((stock) => {
-      if (!validatePortfolio(rows, stock["tickerSymbol"])) {
-        //Will update API To add the follow values: companyName, date and price
-        let total = numberWithCommas(stock["currentPrice"] * stock["numberOfShares"]);
-        rows.push({
-          avatar: (
-            <Avatar style={{ backgroundColor: "black" }}>
-              {stock["tickerSymbol"].split("")[0]}
-            </Avatar>
-          ),
-          ticker: stock["tickerSymbol"],
-          companyName: stock["companyName"],
-          dateAdded: stock["purchasedDate"],
-          priceAdded: `$${numberWithCommas(stock["purchasedPrice"])}`,
-          currentPrice: `$${numberWithCommas(stock["currentPrice"])}`,
-          shares: stock["numberOfShares"],
-          totalPosition: `$${total}`,
-          action: (
-            <IconButton>
-              <BusinessIcon />
-            </IconButton>
-          ),
-        });
-      }
-      return "";
-    });
+    updatePortfolioTable(props)
   }
 
   const handleChangePage = (event, newPage) => {

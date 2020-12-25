@@ -45,6 +45,7 @@ const PortfolioCard = (props) => {
     setSpinner(false);
     setReturns(returnsCalc);
   };
+
   const onCurrentPriceHandler = async () => {
     setSpinner(true);
     const [currentPrice] = await props.calculateReturn(
