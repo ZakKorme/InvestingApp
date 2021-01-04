@@ -1,16 +1,11 @@
-import React, { useState } from "react";
-import { calculateReturns } from "../../../store/actions/portfolio";
+import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { CardHeader } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
-
-import Spinner from "../../UI/Spinner/Spinner";
 
 const useStyles = makeStyles({
   root: {
@@ -30,31 +25,7 @@ const useStyles = makeStyles({
 });
 
 const PortfolioCard = (props) => {
-  const [returns, setReturns] = useState(null);
-  const [spinner, setSpinner] = useState(false);
-  const [currentPrice, setCurrentPrice] = useState(null);
   const classes = useStyles();
-
-  const onReturnHandler = async () => {
-    setSpinner(true);
-    const [, returnsCalc] = await props.calculateReturn(
-      props.ticker,
-      props.price,
-      props.quantity
-    );
-    setSpinner(false);
-    setReturns(returnsCalc);
-  };
-  const onCurrentPriceHandler = async () => {
-    setSpinner(true);
-    const [currentPrice] = await props.calculateReturn(
-      props.ticker,
-      props.price,
-      props.quantity
-    );
-    setSpinner(false);
-    setCurrentPrice(currentPrice);
-  };
 
   return (
     <Card className={classes.root}>
@@ -72,29 +43,19 @@ const PortfolioCard = (props) => {
           {props.ticker}
         </Typography>
         <Typography variant="body2" component={"p"}>
-          <strong>Price: </strong> {props.price}
+          <strong>Price: </strong> ${props.price}
         </Typography>
         <Typography variant="body2">
           <strong>Shares: </strong> {props.quantity}
         </Typography>
         <Typography variant="body2">
-          <strong>Current Price: </strong>
-          {currentPrice ? currentPrice : false}
+          <strong>Current Price: </strong>${props.current}
         </Typography>
         <Typography component={"span"} variant="body2">
-          <strong>Total Returns: </strong>
-          {spinner ? <Spinner /> : null}
-          {returns ? returns : null}
+          <strong>Total Returns: </strong>$
+          {((props.current - props.price) * props.quantity).toFixed(2)}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small" onClick={onReturnHandler}>
-          Calculate Return
-        </Button>
-        <Button size="small" onClick={onCurrentPriceHandler}>
-          Current Price
-        </Button>
-      </CardActions>
     </Card>
   );
 };
@@ -105,11 +66,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    calculateReturn: (ticker, price, quantity) =>
-      dispatch(calculateReturns(ticker, price, quantity)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PortfolioCard);
+export default connect(mapStateToProps)(PortfolioCard);

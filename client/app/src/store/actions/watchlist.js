@@ -160,12 +160,14 @@ export const removeWatchlist = (stock) => {
   return async (dispatch) => {
     dispatch(removeWatchlistInit());
     try {
-      const res = await axios.delete(`http://localhost:5000/api/watchlist/${stock}`);
+      const res = await axios.delete(
+        `http://localhost:5000/api/watchlist/${stock}`
+      );
       const data = res.data;
       dispatch(removeWatchlistSuccess(data));
     } catch (err) {
       console.log(err);
-      dispatch(removeWatchlistFailure(err))
+      dispatch(removeWatchlistFailure(err));
     }
   };
 };
@@ -186,6 +188,6 @@ export const removeWatchlistSuccess = (watchlist) => {
 export const removeWatchlistFailure = (err) => {
   return {
     type: actionTypes.WATCHLIST_REMOVE_FAILURE,
-    error: err
+    error: err,
   };
 };
