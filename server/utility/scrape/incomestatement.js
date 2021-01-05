@@ -8,20 +8,20 @@ const scrapeIncomeStatement = async (url) => {
 
   //IncomeStatement
   const incomeStatement = [];
-  let yearIncomeStatement =
+  const yearIncomeStatement =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[1]/div/div[2]/span';
-  let totalRevenue =
+  const totalRevenue =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/span';
-  let grossProfit =
+  const grossProfit =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]/span';
-
-  let operatingExpense =
+  const operatingExpense =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[4]/div[1]/div[2]/span';
-  let operatingIncome =
+  const operatingIncome =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[5]/div[1]/div[2]/span';
-  let preTaxIncome =
+  const preTaxIncome =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[8]/div[1]/div[2]/span';
-  let incomeStatementSelectors = {
+  
+  const incomeStatementSelectors = {
     yearIncomeStatement,
     totalRevenue,
     grossProfit,
