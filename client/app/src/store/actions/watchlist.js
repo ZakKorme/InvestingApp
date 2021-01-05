@@ -37,10 +37,10 @@ export const addToWatchlist = (watchlistStock) => {
         companyName: watchlistStock.companyName,
         priceAdded: watchlistStock.price,
         currentPrice: watchlistStock.price,
-        targetPrice: watchlistStock.targetPrice,
       });
       dispatch(returnSuccess());
     } catch (err) {
+      console.log("There was an error with the try catch");
       console.log(err);
       dispatch(returnFailure(err));
     }

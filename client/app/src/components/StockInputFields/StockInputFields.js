@@ -37,7 +37,6 @@ const StockInputFields = (props) => {
   const [position, setPosition] = useState("");
   const [add, setAdd] = useState("");
   const [shares, setShares] = useState("");
-  const [target, setTarget] = useState("");
 
   const onClickHandler = async () => {
     const stock = {
@@ -45,7 +44,6 @@ const StockInputFields = (props) => {
       companyName,
       price: Number(price),
       shares: Number(shares),
-      targetPrice: target,
     };
     if (add === "Add" && position === "Portfolio") {
       await props.addToPortfolio(stock);
@@ -54,6 +52,7 @@ const StockInputFields = (props) => {
       await props.removePortfolio(stock.ticker);
       clearInputFields();
     } else if (add === "Add" && position === "Watchlist") {
+      console.log("adding to watchlist");
       await props.addToWatchlist(stock);
       clearInputFields();
     } else if (add === "Remove" && position === "Watchlist") {
@@ -69,7 +68,6 @@ const StockInputFields = (props) => {
     setPosition("");
     setAdd("");
     setShares("");
-    setTarget("");
   };
 
   const companyNameHandler = (event) => {
@@ -89,9 +87,6 @@ const StockInputFields = (props) => {
   };
   const sharesHandler = (event) => {
     setShares(event.target.value);
-  };
-  const targetHandler = (event) => {
-    setTarget(event.target.value);
   };
 
   const watchlistAdd = (
@@ -116,16 +111,6 @@ const StockInputFields = (props) => {
         label="Price"
         value={price}
         onChange={priceHandler}
-        multiline
-        InputProps={{
-          startAdornment: <InputAdornment position="start">$</InputAdornment>,
-        }}
-      />
-      <TextField
-        id="standard-textarea3"
-        label="Target Price"
-        value={target}
-        onChange={targetHandler}
         multiline
         InputProps={{
           startAdornment: <InputAdornment position="start">$</InputAdornment>,
