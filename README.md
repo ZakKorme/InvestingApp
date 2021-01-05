@@ -32,7 +32,7 @@ If you would like to run mongo in the background as a daemon, run the following:
 
 [X] Portfolio Page: Add/Remove Functionality with Portfolio
 
-[] Portfolio Page: Align Watchlist and Portfolio Titles
+[X] Portfolio Page: Align Watchlist and Portfolio Titles
 
 [] Home Page: Add Jumbotron w/Daily Reminders
 
