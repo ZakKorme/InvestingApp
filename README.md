@@ -28,9 +28,9 @@ If you would like to run mongo in the background as a daemon, run the following:
 
 
 ### TODO LIST
-[] Portfolio Page: Add/Remove Functionality with Watchlist 
+[X] Portfolio Page: Add/Remove Functionality with Watchlist 
 
-[] Portfolio Page: Add/Remove Functionality with Portfolio
+[X] Portfolio Page: Add/Remove Functionality with Portfolio
 
 [] Portfolio Page: Align Watchlist and Portfolio Titles
 
