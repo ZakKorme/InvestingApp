@@ -2,9 +2,9 @@ import React from "react";
 import classes from "../FinancialStatements.module.css";
 
 const IncomeStatement = (props) => {
-  let incomeStatement = props.incomeStatement
+  const incomeStatement = props.incomeStatement
     ? props.incomeStatement.map((data, index) => {
-        let value = Object.keys(data)[0];
+        const value = Object.keys(data)[0];
         return (
           <div key={index} className={classes.FinancialStatementItems}>
             <h4>{value}:</h4>

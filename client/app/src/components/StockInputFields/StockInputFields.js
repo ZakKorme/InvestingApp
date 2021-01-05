@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StockInputFields = (props) => {
   const classes = useStyles();
+
   const [companyName, setCompanyName] = useState("");
   const [ticker, setTicker] = useState("");
   const [price, setPrice] = useState("");
@@ -74,11 +75,9 @@ const StockInputFields = (props) => {
   const companyNameHandler = (event) => {
     setCompanyName(event.target.value);
   };
-
   const tickerHandler = (event) => {
     setTicker(event.target.value);
   };
-
   const priceHandler = (event) => {
     setPrice(event.target.value);
   };
@@ -95,7 +94,7 @@ const StockInputFields = (props) => {
     setTarget(event.target.value);
   };
 
-  let watchlistAdd = (
+  const watchlistAdd = (
     <div>
       <TextField
         id="standard-multiline-flexible"
@@ -134,7 +133,7 @@ const StockInputFields = (props) => {
       />
     </div>
   );
-  let watchlistRemove = (
+  const watchlistRemove = (
     <div>
       <TextField
         id="standard-textarea1"
@@ -145,7 +144,7 @@ const StockInputFields = (props) => {
       />
     </div>
   );
-  let portfolioAdd = (
+  const portfolioAdd = (
     <div>
       <TextField
         id="standard-multiline-flexible"
@@ -184,7 +183,7 @@ const StockInputFields = (props) => {
       />
     </div>
   );
-  let portfolioRemove = (
+  const portfolioRemove = (
     <div>
       <TextField
         id="standard-textarea1"

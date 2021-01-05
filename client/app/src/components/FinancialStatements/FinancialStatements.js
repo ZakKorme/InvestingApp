@@ -68,6 +68,7 @@ const mapDispatchToProps = (dispatch) => {
     onClear: () => dispatch(clearAnalysis()),
   };
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
