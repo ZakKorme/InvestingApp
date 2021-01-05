@@ -7,38 +7,37 @@ const scrapeIncomeStatement = require("../utility/scrape/incomestatement");
 
 //GET : realtime data on specific stock
 router.get("/:id", async (req, res) => {
-  let stockData = null;
+  const ticker = req.params.id;
   try {
-    const ticker = req.params.id;
-    stockData = await stock.scrapeStock(ticker);
+    const stockData = await stock.scrapeStock(ticker);
+    console.log(stockData);
+    res.send(stockData);
   } catch (err) {
     console.error(err);
+    res.status(404).send(`Could not retrieve realtime data for ${ticker} - ${err.message}`);
   }
-  console.log(stockData);
-  res.send(stockData);
 });
 
 //GET : realtime financials on specific stock
 router.get("/financials/:id", async (req, res) => {
-  let stock = req.params.id;
-  let balanceSheet, cashFlow, incomeStatement;
-  let urlBalanceSheet = `https://finance.yahoo.com/quote/${stock}/balance-sheet?p=${stock}`;
-  let urlCashFlow = `https://finance.yahoo.com/quote/${stock}/cash-flow?p=${stock}`;
-  let urlIncomeStatement = `https://finance.yahoo.com/quote/${stock}/financials?p=${stock}`;
+  const ticker = req.params.id;
 
   try {
-    console.log("BalanceSheet");
-    balanceSheet = await scrapeBalanceSheet(urlBalanceSheet);
-    console.log("CashFlow");
-    cashFlow = await scrapeCashFlow(urlCashFlow);
-    console.log("IncomeStatement");
-    incomeStatement = await scrapeIncomeStatement(urlIncomeStatement);
+    const urlBalanceSheet = `https://finance.yahoo.com/quote/${ticker}/balance-sheet?p=${ticker}`;
+    const urlCashFlow = `https://finance.yahoo.com/quote/${ticker}/cash-flow?p=${ticker}`;
+    const urlIncomeStatement = `https://finance.yahoo.com/quote/${ticker}/financials?p=${ticker}`;
+
+    const balanceSheet = await scrapeBalanceSheet(urlBalanceSheet);
+    const cashFlow = await scrapeCashFlow(urlCashFlow);
+    const incomeStatement = await scrapeIncomeStatement(urlIncomeStatement);
+
+    const statements = { balanceSheet, cashFlow, incomeStatement };
+    res.send(statements);
+  
   } catch (err) {
     console.log(err);
+    res.status(400).send(`Encountered error while trying to retrieve realtime financials for ${ticker} - ${err.message}`);
   }
-
-  let statements = { balanceSheet, cashFlow, incomeStatement };
-  res.send(statements);
 });
 
 module.exports = router;

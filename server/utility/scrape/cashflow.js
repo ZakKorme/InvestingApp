@@ -8,26 +8,20 @@ const scrapeCashFlow = async (url) => {
 
   //Cashflow
   const cashFlow = [];
-  let yearCashFlow =
+  const yearCashFlow =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[1]/div/div[2]/span';
-  let operatingCashFlow =
+  const operatingCashFlow =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/span';
-  let investingCashFlow =
+  const investingCashFlow =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/span';
-  // let financingCashFlow =
-  //   '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]/span';
-  let endCashPosition =
+  const endCashPosition =
     '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[4]/div[1]/div[2]/span';
-  // let freeCashFlow =
-  //   '//*[@id="Col1-1-Financials-Proxy"]/section/div[4]/div[1]/div[1]/div[2]/div[11]/div[1]/div[2]/span';
 
   const cashFlowSelectors = {
-    yearCashFlow: yearCashFlow,
-    operatingCashFlow: operatingCashFlow,
-    investingCashFlow: investingCashFlow,
-    // financingCashFlow: financingCashFlow,
-    endCashPosition: endCashPosition,
-    // freeCashFlow: freeCashFlow,
+    yearCashFlow,
+    operatingCashFlow,
+    investingCashFlow,
+    endCashPosition,
   };
   console.log("CashFlow Selectors");
   for (let selector in cashFlowSelectors) {

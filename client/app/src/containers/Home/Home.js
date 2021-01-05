@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import PortfolioCard from "../../components/UI/PortfolioCard/PortfolioCard";
-import { calculateReturns } from "../../store/actions/portfolio";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -17,11 +16,12 @@ const Home = (props) => {
   const classes = useStyles();
   const { portfolio } = props;
   const portfolioData =
-    portfolio.length > 1
+    portfolio.length > 0
       ? portfolio.map((stocks) => {
           let ticker = stocks["tickerSymbol"];
           let price = stocks["purchasedPrice"];
           let quantity = stocks["numberOfShares"];
+          let currentPrice = stocks["currentPrice"];
           return (
             <Grid item xs={12} sm={6} md={4} key={ticker}>
               <PortfolioCard
@@ -29,6 +29,7 @@ const Home = (props) => {
                 ticker={ticker}
                 price={price}
                 quantity={quantity}
+                current={currentPrice}
               />
             </Grid>
           );
@@ -47,10 +48,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    calculateReturn: () => dispatch(calculateReturns()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(Home);
