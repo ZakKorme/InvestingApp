@@ -25,3 +25,16 @@ Then start mongo:
 
 If you would like to run mongo in the background as a daemon, run the following:
 `mongod --dbpath data/db &`
+
+
+### TODO LIST
+[] Portfolio Page: Add/Remove Functionality with Watchlist 
+[] Portfolio Page: Add/Remove Functionality with Portfolio
+[] Portfolio Page: Align Watchlist and Portfolio Titles
+
+[] Home Page: Add Jumbotron w/Daily Reminders
+
+[] Scan Page: Move the Scan input field
+
+[] Analysis Page: Connect to EDGAR and return 5 years worth of 10k 
+[] Analysis Page: color-code the price change
