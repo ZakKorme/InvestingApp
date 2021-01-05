@@ -27,17 +27,6 @@ const useStyles = makeStyles({
 const PortfolioCard = (props) => {
   const classes = useStyles();
 
-  const onCurrentPriceHandler = async () => {
-    setSpinner(true);
-    const [currentPrice] = await props.calculateReturn(
-      props.ticker,
-      props.price,
-      props.quantity
-    );
-    setSpinner(false);
-    setCurrentPrice(currentPrice);
-  };
-
   return (
     <Card className={classes.root}>
       <CardHeader
