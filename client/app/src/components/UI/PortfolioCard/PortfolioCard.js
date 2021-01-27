@@ -19,6 +19,9 @@ const useStyles = makeStyles({
   title: {
     fontSize: 14,
   },
+  avatar: {
+    backgroundColor: "black",
+  },
   pos: {
     marginBottom: 12,
   },

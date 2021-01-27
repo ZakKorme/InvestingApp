@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  menuColor: {
+    backgroundColor: "#1282b3",
+    color: "#f9f9f9",
+  },
   title: {
     flexGrow: 1,
   },
@@ -22,7 +26,7 @@ const Navigation = (props) => {
   const classes = useStyles();
 
   return (
-    <AppBar position="static" color="transparent">
+    <AppBar position="static" color="transparent" className={classes.menuColor}>
       <Toolbar>
         <IconButton
           edge="start"
