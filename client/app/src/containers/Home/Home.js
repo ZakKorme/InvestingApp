@@ -4,12 +4,27 @@ import PortfolioCard from "../../components/UI/PortfolioCard/PortfolioCard";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import financeImage from "../../public/undraw_finance_0bdk (1).svg";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 const useStyles = makeStyles({
   gridContainer: {
     paddingLeft: "20px",
     paddingRight: "20px",
     paddingTop: "22px",
+  },
+  Quote: {
+    fontSize: "25px",
+    fontFamily: "Roboto",
+    display: "inline",
+  },
+  priceIncrease: {
+    color: "green",
+    paddingLeft: "10px",
+  },
+  priceDecrease: {
+    color: "red",
+    paddingLeft: "10px",
   },
 });
 
@@ -50,12 +65,37 @@ const Home = (props) => {
             paddingLeft: "50px",
           }}
         >
-          <p style={{ fontSize: "50px", fontFamily: "Roboto" }}>
-            "Price is what you pay. Value is what you get."
+          <p className={classes.Quote}>
+            <strong>S&amp;P 500:</strong>
+            <p>
+              <span>3,714.24</span>
+              <ArrowDownwardIcon className={classes.priceDecrease} /> -73.14
+              (-1.93%)
+            </p>
           </p>
-          <p style={{ fontSize: "50px", fontFamily: "Roboto" }}>
-            {" "}
-            - Warren Buffet
+          <p className={classes.Quote}>
+            <strong>NASDAQ:</strong>
+            <p className={classes.price}>
+              <span>13,070.69</span>
+              <ArrowDownwardIcon className={classes.priceDecrease} /> -266.46
+              (-2.00%)
+            </p>
+          </p>
+          <p className={classes.Quote}>
+            <strong>DOW 30:</strong>
+            <p>
+              <span>29,982.62</span>
+              <ArrowUpwardIcon className={classes.priceIncrease} /> 602.56
+              (+2.04%)
+            </p>
+          </p>
+          <p className={classes.Quote}>
+            <strong>RUSSEL 2000:</strong>
+            <p>
+              <span>2,073.64</span>
+              <ArrowUpwardIcon className={classes.priceIncrease} /> 80.98
+              (+5.78%)
+            </p>
           </p>
         </Grid>
         <Grid
