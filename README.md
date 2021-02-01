@@ -29,7 +29,7 @@ This app was developed to remove the conventional messaging attached to most inv
 
 #### Analysis
 
-![Screen Shot 2021-01-31 at 5 23 27 PM](https://user-images.githubusercontent.com/38298940/106401186-c4346100-63f0-11eb-83eb-ab4df02ba647.png)
+![Screen Shot 2021-01-31 at 7 46 36 PM](https://user-images.githubusercontent.com/38298940/106403533-327f2080-63fd-11eb-8930-9be5e42a093c.png)
 
 #### Portfolio
 
