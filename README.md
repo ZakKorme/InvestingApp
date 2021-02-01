@@ -2,16 +2,26 @@
 
 The following application provides a centralized location for investors to track and access their positions. Users can track stock prices, look up financial documents, and follow their returns. 
 
+## How to run
+
+```
+cd server
+npm start
+
+cd ../client/app
+npm start
+```
 ## Motivation
 The motivation for this app was to create a platform that made it possible for investors to follow a value-centered approach. This method begins by reviewing financial documents and business fundamentals. Afterward, if the business has a good foundation, we view the price and make sure we don't overpay for the asset.
 
 This app was developed to remove the conventional messaging attached to most investing apps today. Most apps encourage regular trading irrespective of price and value. This platform hopefully reminds the investor that strict analysis and patience are the best traits an aspiring investor can have.  
 
+
 ## Screenshots
 
 #### Home
 
-![Screen Shot 2021-01-31 at 5 20 18 PM](https://user-images.githubusercontent.com/38298940/106401069-1a54d480-63f0-11eb-81ce-cdc5896dc547.png)
+![Screen Shot 2021-01-31 at 7 33 44 PM](https://user-images.githubusercontent.com/38298940/106403178-488be180-63fb-11eb-874b-f3df1e234f9c.png)
 
 #### Scan 
 
@@ -41,16 +51,6 @@ This app was developed to remove the conventional messaging attached to most inv
   - **Portfolio Tracker**: this feature will track all the stocks within the portfolio and update prices
   - **Current Price**: all stocks within the portfolio will have their prices updated every 2 minutes while the stock market is open
   
-
-## How to run
-
-```
-cd server
-npm start
-
-cd ../client/app
-npm start
-```
 
 ## Problems?
 
